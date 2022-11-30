@@ -128,6 +128,31 @@ app.post('/v1/type', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
+app.get('/v1/types', cors(), async (request, response) => {
+    let statusCode
+    let message
+
+    // Retorna todos os produtos existentes no banco de dados
+    const typesData = await typeController.listAllTypes()
+
+    if(typesData) {
+        statusCode = 200
+        message = typesData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+/* ENDPOINTS PARA OS TIPOS DE PRODUTOS */
+
+/*******************************************************/
+
+/* ENDPOINTS PARA AS CATEGORIAS DE PRODUTOS */
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

@@ -37,7 +37,18 @@ const deleteType = async(id) => {
 }
 
 const listAllTypes = async () => {
-    
+    let typesJson = {}
+
+    const { selectAllTypes } = require('../models/DAO/type.js')
+
+    const typesData = await selectAllTypes()
+
+    if(typesData) {
+        typesJson.types = typesData
+        return typesJson
+    } else {
+        return false
+    }
 }
 
 module.exports = {

@@ -43,7 +43,15 @@ const deleteType = async (id) => {
 
 // Função para retornar todos os tipos
 const selectAllTypes = async () => {
-    
+    let sql = 'select cast(id as decimal) as id, tipo from tbl_tipo_produto order by id desc'
+
+    const rsTypes = await prisma.$queryRawUnsafe(sql)
+
+    if(rsTypes.length > 0) {
+        return rsTypes
+    } else {
+        return false
+    }
 }
 
 module.exports = {
