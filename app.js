@@ -97,6 +97,37 @@ app.get('/v1/products', cors(), async (request, response) => {
 
 /* ENDPOINTS PARA OS TIPOS DE PRODUTOS */
 
+app.post('/v1/type', cors(), jsonParser, async (request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type'] // Nos traz o formato de dados da requisição
+
+    // Validar se o ContentType é do tipo application/json
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+        
+        // Realiza processo de conversão de dados para conseguir identificar um JSON vazio
+        if(JSON.stringify(bodyData) != '{}') {
+
+            const newType = await typeController.newType(bodyData)
+
+            statusCode = newType.status
+            message = newType.message
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

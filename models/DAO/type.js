@@ -13,7 +13,22 @@ const prisma = new PrismaClient()
 
 // Função para inserção de um novo tipo
 const insertType = async (type) => {
-    
+    try {
+        let sql = `insert into tbl_tipo_produto (tipo)
+                        values (
+                            '${type.tipo}'
+                        )`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        return false
+    }
 }
 
 // Função para atualização de um tipo
