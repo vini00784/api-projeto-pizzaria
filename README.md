@@ -1,1 +1,1 @@
-# api-projeto-pizzaria
+# API - Projeto Pizzaria
