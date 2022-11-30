@@ -23,7 +23,20 @@ const updateUser = async (user) => {
 
 // Função para exclusão de um usuário
 const deleteUser = async (id) => {
-    
+    try {
+        let sql = `delete from tbl_usuario where id = ${id}`
+
+        const result = await prisma.$queryRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error);
+        return false
+    }
 }
 
 // Função para retornar todos os usuários

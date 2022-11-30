@@ -17,6 +17,7 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('./module/config.js')
 const productController = require('./controllers/productController.js')
 const typeController = require('./controllers/typeController.js')
 const categoryController = require('./controllers/categoryController.js')
+const userController = require('./controllers/userController.js')
 
 const app = express()
 
@@ -371,6 +372,31 @@ app.delete('/v1/category/:categoryId', cors(), jsonParser, async(request, respon
     response.json(message)
 })
 
+/*******************************************************/
+
+/* ENDPOINTS PARA OS USUÁRIOS */
+
+app.delete('/v1/user;:userId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+
+    let id = request.params.userId
+
+    if(id != '' && id != undefined) {
+        const deletedUser = await userController.deleteUser(id)
+
+        statusCode = deletedUser.status
+        message = deletedUser.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+/* ENDPOINTS PARA OS USUÁRIOS */
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

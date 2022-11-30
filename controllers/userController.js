@@ -20,7 +20,19 @@ const updateUser = async (user) => {
 
 // Função que deleta usuário do BD
 const deleteUser = async (id) => {
-    
+    if(id != '' && id != undefined) {
+        const deletedUser = require('../models/DAO/user.js')
+
+        const result = deletedUser.deleteUser(id)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.DELETE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    }
 }
 
 // Função que lista todos os usuários do BD
