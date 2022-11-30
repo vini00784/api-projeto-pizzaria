@@ -14,6 +14,34 @@ const prisma = new PrismaClient()
 // Função para inserção de um novo produto
 const insertProduct = async (product) => {
 
+    try {
+        let sql = `insert into tbl_produto (nome,
+                                            preco,
+                                            foto,
+                                            descricao,
+                                            id_tipo_produto,
+                                            id_categoria)
+                                            values (
+                                                '${product.nome}',
+                                                '${product.preco}',
+                                                '${product.foto}',
+                                                '${product.descricao}',
+                                                ${product.id_tipo_produto},
+                                                ${product.id_categoria}
+                                            );`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+
+    } catch(error) {
+        return false
+    }
+
 }
 
 // Função para atualização de um produto
