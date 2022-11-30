@@ -31,7 +31,21 @@ const newCategory = async (category) => {
 
 // Função que atualiza produto no BD
 const updateCategory = async (category) => {
+    if(category.id == '' || category.id == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    } else if(category.nome == '' || category.nome == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else {
+        const updatedType = require('../models/DAO/category.js')
 
+        const result = updatedType.updateCategory(category)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 // Função que delete produto do BD
@@ -57,5 +71,6 @@ const listAllCategories = async () => {
 
 module.exports = {
     newCategory,
+    updateCategory,
     listAllCategories
 }

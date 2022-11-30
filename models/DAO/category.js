@@ -33,7 +33,22 @@ const insertCategory = async (category) => {
 
 // Função para atualização de uma categoria
 const updateCategory = async (category) => {
+    try {
+        let sql = `update from tbl_categoria 
+                   set nome = '${category.nome}'
+                   where id = ${category.id}`
 
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    }catch(error) {
+        console.log(error);
+        return false
+    }
 }
 
 // Função para exclusão de uma categoria
@@ -56,5 +71,6 @@ const selectAllCategories = async () => {
 
 module.exports = {
     insertCategory,
+    updateCategory,
     selectAllCategories
 }
