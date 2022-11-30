@@ -71,6 +71,32 @@ app.post('/v1/product', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
+app.get('/v1/products', cors(), async (request, response) => {
+    let statusCode
+    let message
+
+    // Retorna todos os produtos existentes no banco de dados
+    const productsData = await productController.listAllProducts()
+
+    if(productsData) {
+        statusCode = 200
+        message = productsData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+
+/* ENDPOINTS PARA OS PRODUTOS */ 
+
+/*******************************************************/
+
+/* ENDPOINTS PARA OS TIPOS DE PRODUTOS */
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

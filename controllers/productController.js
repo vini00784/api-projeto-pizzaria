@@ -30,7 +30,7 @@ const newProduct = async (product) => {
             return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
         }
     }
-    
+
 }
 
 // Função que atualiza produto no BD
@@ -45,7 +45,18 @@ const deleteProduct = async () => {
 
 // Função que lista todos os produtos do BD
 const listAllProducts = async () => {
-    
+    let productsJson = {}
+
+    const { selectAllProducts } = require('../models/DAO/product.js')
+
+    const productsData = await selectAllProducts()
+
+    if(productsData) {
+        productsJson.products = productsData
+        return productsJson
+    } else {
+        return false
+    }
 }
 
 // Função que lista os produtos do BD com base na categoria

@@ -56,7 +56,15 @@ const deleteProduct = async (id) => {
 
 // Função para retornar todos os produtos
 const selectAllProducts = async () => {
-    
+    let sql = 'select cast(id as decimal) as id, nome, preco, foto, descricao, qtde_favorito from tbl_produto order by id desc'
+
+    const rsProducts = await prisma.$queryRawUnsafe(sql)
+
+    if(rsProducts.length > 0) {
+        return rsProducts
+    } else {
+        return false
+    }
 }
 
 // Função para retornar produtos com base na categoria (se é Pizza, Bebida...)
