@@ -181,6 +181,24 @@ app.post('/v1/category', cors(), jsonParser, async(request, response) => {
     response.json(message)
 })
 
+app.get('/v1/categories', cors(), async(request, response) => {
+    let statusCode
+    let message
+
+    const categoriesData = await categoryController.listAllCategories()
+
+    if(categoriesData) {
+        statusCode = 200
+        message = categoriesData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

@@ -41,7 +41,18 @@ const deleteCategory = async (id) => {
 
 // Função que lista todos os produtos do BD
 const listAllCategories = async () => {
-    
+    let categoriesJson = {}
+
+    const { selectAllCategories } = require('../models/DAO/category.js')
+
+    const categoriesData = await selectAllCategories()
+
+    if(categoriesData) {
+        categoriesJson.categories = categoriesData
+        return categoriesJson
+    } else {
+        return false
+    }
 }
 
 module.exports = {

@@ -43,7 +43,15 @@ const deleteCategory = async (id) => {
 
 // Função para retornar todas as categorias
 const selectAllCategories = async () => {
-    
+    let sql = 'select * from tbl_categoria order by id desc'
+
+    const rsCategories = await prisma.$queryRawUnsafe(sql)
+
+    if(rsCategories.length > 0) {
+        return rsCategories
+    } else {
+        return false
+    }
 }
 
 module.exports = {
