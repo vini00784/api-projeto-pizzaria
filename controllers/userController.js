@@ -10,7 +10,23 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../module/config.js')
 
 // Função que gera novo usuário no BD
 const newUser = async (user) => {
+    if(user.nome == '' || user.nome == undefined || user.email == '' || user.email == undefined || user.senha == '' || user.senha == undefined || user.cpf == '' || user.cpf == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(!user.email.includes('@')) {
+        return {status: 400, message: MESSAGE_ERROR.INVALID_EMAIL}
+    } else if(user.nome.length > 80 || user.email.length > 256 || user.senha.length > 25 || user.celular.length > 20 || user.rg.length > 20 || user.cpf.length > 18) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    } else {
+        const newUser = require('../models/DAO/user.js')
 
+        const resultNewUser = await newUser.insertUser(user)
+
+        if(resultNewUser) {
+            return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 // Função que atualiza usuário no BD

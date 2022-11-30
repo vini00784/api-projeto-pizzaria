@@ -376,7 +376,35 @@ app.delete('/v1/category/:categoryId', cors(), jsonParser, async(request, respon
 
 /* ENDPOINTS PARA OS USUÁRIOS */
 
-app.delete('/v1/user;:userId', cors(), jsonParser, async(request, response) => {
+app.post('/v1/user', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            const resultNewUser = await userController.newUser(bodyData)
+
+            statusCode = resultNewUser.status
+            message = resultNewUser.message
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+app.delete('/v1/user/:userId', cors(), jsonParser, async(request, response) => {
     let statusCode
     let message
 
