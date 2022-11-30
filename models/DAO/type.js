@@ -53,7 +53,20 @@ const updateType = async (type) => {
 
 // Função para exclusão de um tipo
 const deleteType = async (id) => {
+    try {
+        let sql = `delete from tbl_tipo_produto where id = ${id}`
 
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para retornar todos os tipos
@@ -72,5 +85,6 @@ const selectAllTypes = async () => {
 module.exports = {
     insertType,
     updateType,
+    deleteType,
     selectAllTypes
 }

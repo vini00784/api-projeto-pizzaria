@@ -245,6 +245,26 @@ app.put('v1/type/:typeId', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
+app.delete('v1/type/:typeId', cors(), jsonParser, async (request, response) => {
+    let statusCode
+    let message
+    
+    let id = request.params.typeId
+
+    if(id != '' || id != undefined) {
+        const deletedType = await typeController.deleteType(id)
+
+        statusCode = deletedType.status
+        message = deletedType.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA OS TIPOS DE PRODUTOS */
 
 /*******************************************************/
