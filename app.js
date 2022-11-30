@@ -351,6 +351,26 @@ app.put('/v1/category/:categoryId', cors(), jsonParser, async(request, response)
     response.json(message)
 })
 
+app.delete('/v1/category/:categoryId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+
+    let id = request.params.categoryId
+
+    if(id != '' && id != undefined) {
+        const deletedCategory = await categoryController.deleteCategory(id)
+
+        statusCode = deletedCategory.status
+        message = deletedCategory.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })
