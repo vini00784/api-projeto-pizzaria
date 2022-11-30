@@ -125,6 +125,26 @@ app.put('/v1/product/:productId', cors(), jsonParser, async (request, response) 
     response.json(message)
 })
 
+app.delete('/v1/product/:productId', cors(), jsonParser, async (request, response) => {
+    let statusCode
+    let message
+
+    let id = request.params.productId
+
+    if(id != '' && id != undefined) {
+        const deletedProduct = await productController.deleteProduct(id)
+
+        statusCode = deletedProduct.status
+        message = deletedProduct.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 
 /* ENDPOINTS PARA OS PRODUTOS */ 
 

@@ -74,7 +74,21 @@ const updateProduct = async (product) => {
 
 // Função para exclusão de um produto
 const deleteProduct = async (id) => {
+    try {
+        let sql = `delete from tbl_produto where id = ${id}`
 
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+        
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para retornar todos os produtos

@@ -53,8 +53,20 @@ const updateProduct = async (product) => {
 }
 
 // Função que delete produto do BD
-const deleteProduct = async () => {
+const deleteProduct = async (id) => {
+    if(id != '' && id != undefined) {
+        const deletedProduct = require('../models/DAO/product.js')
 
+        const result = deletedProduct.deleteProduct(id)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.DELETE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    }
 }
 
 // Função que lista todos os produtos do BD
@@ -91,5 +103,6 @@ const listProductByName = async () => {
 module.exports = {
     newProduct,
     updateProduct,
+    deleteProduct,
     listAllProducts
 }
