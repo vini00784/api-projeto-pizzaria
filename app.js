@@ -338,14 +338,17 @@ app.put('/v1/category/:categoryId', cors(), jsonParser, async(request, response)
 
                 statusCode = updatedCategory.status
                 message = updatedCategory.message
+            } else {
+                statusCode = 400
+                message = MESSAGE_ERROR.REQUIRED_ID
             }
         } else {
             statusCode = 400
             message = MESSAGE_ERROR.EMPTY_BODY
         }
     } else {
-        statusCode = 400
-        message = MESSAGE_ERROR.EMPTY_BODY
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
     }
 
     response.status(statusCode)
@@ -416,6 +419,43 @@ app.get('/v1/users', cors(), async (request, response) => {
     } else {
         statusCode = 404
         message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+app.put('/v1/user/:userId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            let id = request.params.userId
+
+            if(id != '' && id != undefined) {
+                bodyData.id = id
+
+                const updatedUser = await userController.updateUser(bodyData)
+
+                statusCode = updatedUser.status
+                message = updatedUser.message
+            } else {
+                statusCode = 400
+                message = MESSAGE_ERROR.REQUIRED_ID
+            }
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
     }
 
     response.status(statusCode)

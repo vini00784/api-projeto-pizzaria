@@ -44,7 +44,27 @@ const insertUser = async (user) => {
 
 // Função para atualização de um usuário
 const updateUser = async (user) => {
-    
+    try {
+        let sql = `update tbl_usuario set
+                   nome = '${user.nome}',
+                   email = '${user.email}',
+                   senha = '${user.senha}',
+                   celular = '${user.celular}',
+                   rg = '${user.rg}',
+                   cpf = '${user.cpf}'
+                   where id = ${user.id}`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para exclusão de um usuário

@@ -14,7 +14,7 @@ const newUser = async (user) => {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
     } else if(!user.email.includes('@')) {
         return {status: 400, message: MESSAGE_ERROR.INVALID_EMAIL}
-    } else if(user.nome.length > 80 || user.email.length > 256 || user.senha.length > 25 || user.celular.length > 20 || user.rg.length > 20 || user.cpf.length > 18) {
+    } else if(user.nome.length > 80 || user.email.length > 256 || user.senha.length > 25 || user.cpf.length > 18) {
         return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
     } else {
         const newUser = require('../models/DAO/user.js')
@@ -31,7 +31,23 @@ const newUser = async (user) => {
 
 // Função que atualiza usuário no BD
 const updateUser = async (user) => {
-    
+    if(user.id == '' && user.id == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    } else if(user.nome == '' || user.nome == undefined || user.email == '' || user.email == undefined || user.senha == '' || user.senha == undefined || user.celular == '' || user.celular == undefined || user.rg == '' || user.rg == undefined || user.cpf == '' || user.cpf == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(user.nome.length > 80 || user.email.length > 256 || user.senha.length > 25 || user.celular.length > 20 || user.rg.length > 20 || user.cpf.length > 18) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    } else {
+        const updatedUser = require('../models/DAO/user.js')
+
+        const result = updatedUser.updateUser(user)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 // Função que deleta usuário do BD
