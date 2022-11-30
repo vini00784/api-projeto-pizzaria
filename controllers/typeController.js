@@ -29,7 +29,21 @@ const newType = async (type) => {
 }
 
 const updateType = async (type) => {
+    if(type.id == '' || type.id == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    } else if(type.tipo == '' || type.tipo == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else {
+        const updatedType = require('../models/DAO/type.js')
 
+        const result = updatedType.updateType(type)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 const deleteType = async(id) => {
@@ -53,5 +67,6 @@ const listAllTypes = async () => {
 
 module.exports = {
     newType,
+    updateType,
     listAllTypes
 }
