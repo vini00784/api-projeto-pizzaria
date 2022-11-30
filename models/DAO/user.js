@@ -67,7 +67,15 @@ const deleteUser = async (id) => {
 
 // Função para retornar todos os usuários
 const selectAllUsers = async () => {
-    
+    let sql = 'select * from tbl_usuario order by id desc'
+
+    const rsUsers = await prisma.$queryRawUnsafe(sql)
+
+    if(rsUsers.length > 0) {
+        return rsUsers
+    } else {
+        return false
+    }
 }
 
 module.exports = {

@@ -53,7 +53,18 @@ const deleteUser = async (id) => {
 
 // Função que lista todos os usuários do BD
 const listAllUsers = async () => {
-    
+    let usersJson = {}
+
+    const { selectAllUsers } = require('../models/DAO/user.js')
+
+    const usersData = selectAllUsers()
+
+    if(usersData) {
+        usersJson.users = usersData
+        return usersJson
+    } else {
+        return false
+    }
 }
 
 module.exports = {

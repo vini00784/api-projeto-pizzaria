@@ -404,6 +404,24 @@ app.post('/v1/user', cors(), jsonParser, async(request, response) => {
     response.json(message)
 })
 
+app.get('/v1/users', cors(), async (request, response) => {
+    let statusCode
+    let message
+
+    const usersData = await userController.listAllUsers()
+
+    if(usersData) {
+        statusCode = 200
+        message = usersData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 app.delete('/v1/user/:userId', cors(), jsonParser, async(request, response) => {
     let statusCode
     let message
