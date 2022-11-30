@@ -13,7 +13,22 @@ const prisma = new PrismaClient()
 
 // Função para inserção de uma nova categoria
 const insertCategory = async (category) => {
-    
+    try {
+        let sql = `insert into tbl_categoria (nome)
+                    values ('${category.nome}')`
+        
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+
+    } catch(error) {
+        console.log(error);
+        return false
+    }
 }
 
 // Função para atualização de uma categoria

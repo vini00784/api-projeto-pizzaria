@@ -153,6 +153,34 @@ app.get('/v1/types', cors(), async (request, response) => {
 
 /* ENDPOINTS PARA AS CATEGORIAS DE PRODUTOS */
 
+app.post('/v1/category', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            const newCategory = await categoryController.newCategory(bodyData)
+
+            statusCode = newCategory.status
+            message = newCategory.message
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

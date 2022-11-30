@@ -10,7 +10,23 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../module/config.js')
 
 // Função que gera novo produto no BD
 const newCategory = async (category) => {
-    
+    if(category.nome == '' || category.nome == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(category.nome.length > 15) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    } else {
+        
+        // Import da Model de Categoria
+        const newCategory = require('../models/DAO/category.js')
+
+        const resultNewCategory = newCategory.insertCategory(category)
+
+        if(resultNewCategory) {
+            return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 // Função que atualiza produto no BD
