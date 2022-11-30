@@ -23,7 +23,7 @@ const insertProduct = async (product) => {
                                             id_categoria)
                                             values (
                                                 '${product.nome}',
-                                                '${product.preco}',
+                                                ${product.preco},
                                                 '${product.foto}',
                                                 '${product.descricao}',
                                                 ${product.id_tipo_produto},
@@ -46,7 +46,30 @@ const insertProduct = async (product) => {
 
 // Função para atualização de um produto
 const updateProduct = async (product) => {
+    try {
+        let sql = `update tbl_produto set
+                   nome = '${product.nome}',
+                   preco = ${product.preco},
+                   foto = '${product.foto}',
+                   descricao = '${product.descricao}',
+                   qtde_favorito = ${product.qtde_favorito},
+                   id_categoria = ${product.id_categoria},
+                   id_tipo_produto = ${product.id_tipo_produto}
+                   where id = ${product.id}
+                   `
+                   console.log(sql);
 
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error);
+        return false
+    }
 }
 
 // Função para exclusão de um produto

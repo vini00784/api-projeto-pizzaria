@@ -90,6 +90,41 @@ app.get('/v1/products', cors(), async (request, response) => {
     response.json(message)
 })
 
+app.put('/v1/product/:productId', cors(), jsonParser, async (request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            let id = request.params.productId
+
+            if(id != '' && id != undefined) {
+                bodyData.id = id
+
+                const updatedProduct = await productController.updateProduct(bodyData)
+
+                statusCode = updatedProduct.status
+                message = updatedProduct.message
+            }
+            
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 
 /* ENDPOINTS PARA OS PRODUTOS */ 
 

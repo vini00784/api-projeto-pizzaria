@@ -34,8 +34,22 @@ const newProduct = async (product) => {
 }
 
 // Função que atualiza produto no BD
-const updateProduct = async () => {
+const updateProduct = async (product) => {
+    if(product.id == '' || product.id == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    } else if(product.nome == '' || product.nome == undefined || product.preco == '' || product.preco == undefined || product.foto == '' || product.foto == undefined || product.id_tipo_produto == '' || product.id_tipo_produto == undefined || product.id_categoria == '' || product.id_categoria == undefined || product.qtde_favorito == '' || product.qtde_favorito == undefined ) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else {
+        const updatedProduct = require('../models/DAO/product.js')
 
+        const result = updatedProduct.updateProduct(product)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 // Função que delete produto do BD
@@ -76,5 +90,6 @@ const listProductByName = async () => {
 
 module.exports = {
     newProduct,
+    updateProduct,
     listAllProducts
 }
