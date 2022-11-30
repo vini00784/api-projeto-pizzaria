@@ -39,6 +39,8 @@ const updateProduct = async (product) => {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
     } else if(product.nome == '' || product.nome == undefined || product.preco == '' || product.preco == undefined || product.foto == '' || product.foto == undefined || product.id_tipo_produto == '' || product.id_tipo_produto == undefined || product.id_categoria == '' || product.id_categoria == undefined || product.qtde_favorito == '' || product.qtde_favorito == undefined ) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(product.nome.length > 50 || product.foto.length > 200) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
     } else {
         const updatedProduct = require('../models/DAO/product.js')
 

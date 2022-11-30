@@ -35,6 +35,8 @@ const updateCategory = async (category) => {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
     } else if(category.nome == '' || category.nome == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(category.nome.length > 15) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
     } else {
         const updatedType = require('../models/DAO/category.js')
 

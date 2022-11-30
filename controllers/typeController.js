@@ -33,6 +33,8 @@ const updateType = async (type) => {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
     } else if(type.tipo == '' || type.tipo == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(type.tipo.length > 20) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
     } else {
         const updatedType = require('../models/DAO/type.js')
 
