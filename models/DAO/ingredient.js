@@ -13,7 +13,23 @@ const prisma = new PrismaClient()
 
 // Função para inserção de um novo produto
 const insertIngredient = async (ingredient) => {
+    try {
+        let sql = `insert into tbl_ingrediente (nome)
+                        values (
+                            '${ingredient.nome}'
+                        )`
 
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para atualização de um produto

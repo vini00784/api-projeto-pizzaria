@@ -10,7 +10,21 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../module/config.js')
 
 // Função que gera novo produto no BD
 const newIngredient = async (ingredient) => {
+    if(ingredient.nome == '' || ingredient.nome == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(ingredient.nome.length > 20) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    } else {
+        const newIngredient = require('../models/DAO/ingredient.js')
 
+        const resultNewIngredient = await newIngredient.insertIngredient(ingredient)
+
+        if(resultNewIngredient) {
+            return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 // Função que atualiza produto no BD
