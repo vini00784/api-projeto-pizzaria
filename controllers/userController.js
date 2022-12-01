@@ -73,7 +73,7 @@ const listAllUsers = async () => {
 
     const { selectAllUsers } = require('../models/DAO/user.js')
 
-    const usersData = selectAllUsers()
+    const usersData = await selectAllUsers()
 
     if(usersData) {
         usersJson.users = usersData

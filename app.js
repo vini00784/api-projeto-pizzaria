@@ -206,7 +206,7 @@ app.get('/v1/types', cors(), async (request, response) => {
     response.json(message)
 })
 
-app.put('v1/type/:typeId', cors(), jsonParser, async (request, response) => {
+app.put('/v1/type/:typeId', cors(), jsonParser, async (request, response) => {
     let statusCode
     let message
     let headerContentType
@@ -246,7 +246,7 @@ app.put('v1/type/:typeId', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
-app.delete('v1/type/:typeId', cors(), jsonParser, async (request, response) => {
+app.delete('/v1/type/:typeId', cors(), jsonParser, async (request, response) => {
     let statusCode
     let message
     
@@ -483,6 +483,7 @@ app.delete('/v1/user/:userId', cors(), jsonParser, async(request, response) => {
 })
 
 /* ENDPOINTS PARA OS USUÁRIOS */
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

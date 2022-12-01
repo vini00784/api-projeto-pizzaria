@@ -34,7 +34,7 @@ const insertCategory = async (category) => {
 // Função para atualização de uma categoria
 const updateCategory = async (category) => {
     try {
-        let sql = `update from tbl_categoria 
+        let sql = `update tbl_categoria 
                    set nome = '${category.nome}'
                    where id = ${category.id}`
 
