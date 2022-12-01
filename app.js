@@ -519,6 +519,24 @@ app.post('/v1/ingredient', cors(), jsonParser, async(request, response) => {
     response.json(message)
 })
 
+app.get('/v1/ingredients', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+
+    const ingredientsData = await ingredientController.listAllIngredients()
+
+    if(ingredientsData) {
+        statusCode = 200
+        message = ingredientsData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA OS USUÁRIOS */
 
 app.listen(3030, () => {

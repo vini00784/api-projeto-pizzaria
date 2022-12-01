@@ -44,7 +44,15 @@ const deleteIngredient = async (id) => {
 
 // Função para retornar todos os produtos
 const selectAllIngredients = async () => {
-    
+    let sql = 'select * from tbl_ingrediente order by id desc'
+
+    const rsIngredients = await prisma.$queryRawUnsafe(sql)
+
+    if(rsIngredients.length > 0) {
+        return rsIngredients
+    } else {
+        return false
+    }
 }
 
 module.exports = {

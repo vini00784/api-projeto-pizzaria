@@ -39,7 +39,18 @@ const deleteIngredient = async (id) => {
 
 // Função que lista todos os produtos do BD
 const listAllIngredients = async () => {
-    
+    let ingredientsJson = {}
+
+    const { selectAllIngredients } = require('../models/DAO/ingredient.js')
+
+    const ingredientsData = await selectAllIngredients()
+
+    if(ingredientsData) {
+        ingredientsJson.ingredients = ingredientsData
+        return ingredientsJson
+    } else {
+        return false
+    }
 }
 
 module.exports = {
