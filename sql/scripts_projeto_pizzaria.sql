@@ -151,3 +151,27 @@ SELECT * FROM tbl_categoria;
 SELECT cast(id AS DECIMAL) AS id, nome, preco, foto, descricao FROM tbl_produto ORDER BY id DESC;
 
 SELECT cast(id AS DECIMAL) AS id, tipo FROM tbl_produto ORDER BY id DESC;
+
+SELECT tbl_produto.nome AS nome_produto, tbl_produto.id,
+	   tbl_categoria.nome AS nome_categoria,
+       tbl_tipo_produto.tipo AS nome_tipo
+       FROM tbl_produto
+       
+       INNER JOIN tbl_categoria
+		 ON tbl_categoria.id = tbl_produto.id_categoria
+	   INNER JOIN tbl_tipo_produto
+		 ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto;
+         
+SELECT * FROM tbl_ingrediente_produto;
+
+SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto,
+	   cast(tbl_ingrediente.id as decimal) as id_ingrediente, tbl_ingrediente.nome as nome_ingrediente
+       FROM tbl_produto
+       
+       INNER JOIN tbl_ingrediente_produto
+		 ON tbl_produto.id = tbl_ingrediente_produto.id_produto
+         
+	  INNER JOIN tbl_ingrediente
+		 ON tbl_ingrediente.id = tbl_ingrediente_produto.id_ingrediente
+         
+	  WHERE tbl_produto.id = 1;

@@ -119,6 +119,22 @@ const selectProductByName = async (productName) => {
 
 }
 
+// Função para retornar o último ID de produto gerado no banco
+const selectLastId = async () => {
+
+    // Script para buscar o último ID gerado no banco de dados
+    let sql = `select cast(id as decimal) as id from tbl_produto order by id desc limit 1`
+    
+    const rsProduct = await prisma.$queryRawUnsafe(sql)
+
+    if(rsProduct) {
+        return rsProduct[0].id
+    } else {
+        return false
+    }
+
+}
+
 module.exports = {
     insertProduct,
     updateProduct,
@@ -126,5 +142,6 @@ module.exports = {
     selectAllProducts,
     selectProductsByCategory,
     selectProductsByType,
-    selectProductByName
+    selectProductByName,
+    selectLastId
 }

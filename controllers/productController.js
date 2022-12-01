@@ -21,10 +21,31 @@ const newProduct = async (product) => {
         // Import da model do produto
         const newProduct = require('../models/DAO/product')
 
+        // Import da model do ingrediente_produto
+        const newProductIngredient = require('../models/DAO/productIngredient.js')
+
         // Chama a função para inserir um novo produto
         const resultNewProduct = await newProduct.insertProduct(product)
         
         if(resultNewProduct) {
+            let newProductId = await newProduct.selectLastId()
+
+            if(newProductId > 0) {
+                let productIngredient = {}
+
+                productIngredient.id_produto = newProductId
+                productIngredient.id_ingrediente = product.ingrediente[0].id_ingrediente
+
+                const resultNewProductIngredient = newProductIngredient.insertProductIngredient(productIngredient)
+
+                if(resultNewProductIngredient) {
+                    return {status:201, message: MESSAGE_SUCCESS.INSERT_ITEM}
+                } else {
+                    await deleteProduct(newProductId)
+                    return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+                }
+            }
+            await deleteProduct(newProductId)
             return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
         } else {
             return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
@@ -75,12 +96,25 @@ const deleteProduct = async (id) => {
 const listAllProducts = async () => {
     let productsJson = {}
 
+    // Import das models
     const { selectAllProducts } = require('../models/DAO/product.js')
+    const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
 
     const productsData = await selectAllProducts()
 
     if(productsData) {
-        productsJson.products = productsData
+        const productIngredientArray = productsData.map(async productItem => {
+
+            const productIngredientData = await selectProductIngredient(productItem.id)
+
+            if(productIngredientData) {
+                productItem.ingrediente = productIngredientData
+            }
+
+            return productItem
+        })
+
+        productsJson.products = await Promise.all(productIngredientArray)
         return productsJson
     } else {
         return false
