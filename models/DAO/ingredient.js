@@ -33,8 +33,23 @@ const insertIngredient = async (ingredient) => {
 }
 
 // Função para atualização de um produto
-const updateProduct = async (ingredient) => {
-    
+const updateIngredient = async (ingredient) => {
+    try {
+        let sql = `update tbl_ingrediente set
+                   nome = '${ingredient.nome}'
+                   where id = ${ingredient.id}`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para exclusão de um produto
@@ -57,7 +72,7 @@ const selectAllIngredients = async () => {
 
 module.exports = {
     insertIngredient,
-    updateProduct,
+    updateIngredient,
     deleteIngredient,
     selectAllIngredients
 }
