@@ -74,6 +74,25 @@ const turnOffIngredient = async (id) => {
     }
 }
 
+const turnOnIngredient = async (id) => {
+    try {
+        let sql = `update tbl_ingrediente
+                   set status_ingrediente = true
+                   where id = ${id}`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
+}
+
 // Função para retornar todos os produtos
 const selectAllIngredients = async () => {
     let sql = 'select * from tbl_ingrediente order by id desc'
@@ -91,5 +110,6 @@ module.exports = {
     insertIngredient,
     updateIngredient,
     turnOffIngredient,
+    turnOnIngredient,
     selectAllIngredients
 }

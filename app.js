@@ -594,6 +594,25 @@ app.put('/v1/ingredient/delete/:ingredientId', cors(), jsonParser, async(request
     response.json(message)
 })
 
+app.put('/v1/ingredient/rehabilitate/:ingredientId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let id = request.params.ingredientId
+
+    if(id != '' && id != undefined) {
+        const rehabilitatedIngredient = await ingredientController.turnOnIngredient(id)
+
+        statusCode = rehabilitatedIngredient.status
+        message = rehabilitatedIngredient.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA OS USUÁRIOS */
 
 app.listen(3030, () => {

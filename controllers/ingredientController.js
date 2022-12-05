@@ -63,6 +63,20 @@ const turnOffIngredient = async (id) => {
     }
 }
 
+const turnOnIngredient = async (id) => {
+    if(id != '' || id != undefined) {
+        const rehabilitatedIngredient = require('../models/DAO/ingredient.js')
+
+        const result = await rehabilitatedIngredient.turnOnIngredient(id)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
+}
+
 // Função que lista todos os produtos do BD
 const listAllIngredients = async () => {
     let ingredientsJson = {}
@@ -83,5 +97,6 @@ module.exports = {
     newIngredient,
     updateIngredient,
     turnOffIngredient,
+    turnOnIngredient,
     listAllIngredients
 }
