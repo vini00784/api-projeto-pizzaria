@@ -31,14 +31,14 @@ const newIngredient = async (ingredient) => {
 const updateIngredient = async (ingredient) => {
     if(ingredient.id == '' || ingredient.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
-    } else if(ingredient.nome == ''|| ingredient.nome == undefined) {
+    } else if(ingredient.nome == ''|| ingredient.nome == undefined || ingredient.status_ingrediente == '' || ingredient.status_ingrediente == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
     } else if(ingredient.nome.length > 20) {
         return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
     } else {
         const updatedIngredient = require('../models/DAO/ingredient.js')
 
-        const result = updatedIngredient.updateIngredient(ingredient)
+        const result = await updatedIngredient.updateIngredient(ingredient)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
@@ -49,8 +49,18 @@ const updateIngredient = async (ingredient) => {
 }
 
 // Função que delete produto do BD
-const deleteIngredient = async (id) => {
-    
+const turnOffIngredient = async (id) => {
+    if(id != '' || id != undefined) {
+        const deletedIngredient = require('../models/DAO/ingredient.js')
+
+        const result = await deletedIngredient.turnOffIngredient(id)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.DELETE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 // Função que lista todos os produtos do BD
@@ -72,6 +82,6 @@ const listAllIngredients = async () => {
 module.exports = {
     newIngredient,
     updateIngredient,
-    deleteIngredient,
+    turnOffIngredient,
     listAllIngredients
 }

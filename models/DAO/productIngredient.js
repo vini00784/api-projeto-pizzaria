@@ -40,7 +40,14 @@ const updateProductIngredient = async (productIngredient) => {
 
 // Função para exclusão de um produto
 const deleteProductIngredient = async (id) => {
-
+    // try {
+    //     let sql = `update from tbl_ingrediente_produto
+    //                set status_ingrediente = false
+    //                where id = ${id}` 
+    // } catch(error) {
+    //     console.log(error)
+    //     return false
+    // }
 }
 
 // Função para retornar todos os produtos

@@ -65,7 +65,7 @@ const updateProduct = async (product) => {
     } else {
         const updatedProduct = require('../models/DAO/product.js')
 
-        const result = updatedProduct.updateProduct(product)
+        const result = await updatedProduct.updateProduct(product)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
@@ -80,7 +80,7 @@ const deleteProduct = async (id) => {
     if(id != '' && id != undefined) {
         const deletedProduct = require('../models/DAO/product.js')
 
-        const result = deletedProduct.deleteProduct(id)
+        const result = await deletedProduct.deleteProduct(id)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.DELETE_ITEM}
