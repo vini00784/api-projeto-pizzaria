@@ -175,3 +175,10 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
 		 ON tbl_ingrediente.id = tbl_ingrediente_produto.id_ingrediente
          
 	  WHERE tbl_produto.id = 1;
+      
+ALTER TABLE tbl_ingrediente ADD COLUMN status_ingrediente boolean not null;
+ALTER TABLE tbl_ingrediente
+	MODIFY COLUMN status_ingrediente boolean DEFAULT true not null 
+
+SELECT * FROM tbl_ingrediente;
+      
