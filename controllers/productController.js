@@ -44,9 +44,10 @@ const newProduct = async (product) => {
                     await deleteProduct(newProductId)
                     return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
                 }
+            } else {
+                await deleteProduct(newProductId)
+                return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
             }
-            await deleteProduct(newProductId)
-            return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
         } else {
             return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
         }
