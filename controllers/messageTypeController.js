@@ -34,7 +34,18 @@ const deleteMessageType = async (id) => {
 }
 
 const listAllMessageType = async () => {
+    let messageTypesJson = {}
 
+    const { selectAllMessageTypes } = require('../models/DAO/messageType.js')
+
+    const messageTypesData = await selectAllMessageTypes()
+
+    if(messageTypesData) {
+        messageTypesJson.types = messageTypesData
+        return messageTypesJson
+    } else {
+        return false
+    }
 }
 
 module.exports = {

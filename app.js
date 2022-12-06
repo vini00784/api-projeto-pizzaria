@@ -700,6 +700,23 @@ app.post('/v1/message-type', cors(), jsonParser, async(request, response) => {
     response.status(statusCode)
     response.json(message)
 })
+app.get('/v1/message-types', cors(), async(request, response) => {
+    let statusCode
+    let message
+
+    const messageTypesData = await messageTypeController.listAllMessageType()
+
+    if(messageTypesData) {
+        statusCode = 200
+        message = messageTypesData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
 
 /* ENDPOINTS PARA AS TIPOS DE MENSAGENS */
 

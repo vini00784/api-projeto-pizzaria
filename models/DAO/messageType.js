@@ -44,7 +44,15 @@ const deleteMessageType = async (id) => {
 
 // Função para retornar todos os tipos de mensagem
 const selectAllMessageTypes = async () => {
-    
+    let sql = 'select cast(id as decimal) as id, nome from tbl_tipo_mensagem order by nome'
+
+    const rsMessageTypes = await prisma.$queryRawUnsafe(sql)
+
+    if(rsMessageTypes.length > 0) {
+        return rsMessageTypes
+    } else {
+        return false
+    }
 }
 
 module.exports = {
