@@ -8,7 +8,21 @@
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config")
 
 const newMessageType = async (type) => {
+    if(type.nome == '' || type.nome == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(type.nome.length > 10) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    } else {
+        const newMessageType = require('../models/DAO/messageType.js')
 
+        const resultNewMessageType = await newMessageType.insertNewMessageType(type)
+
+        if(resultNewMessageType) {
+            return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 const updateMessageType = async (type) => {

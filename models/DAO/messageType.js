@@ -13,7 +13,23 @@ const prisma = new PrismaClient()
 
 // Função para inserção de um novo tipo de mensagem
 const insertNewMessageType = async (type) => {
-    
+    try {
+        let sql = `insert into tbl_tipo_mensagem (nome)
+                                values (
+                                    '${type.nome}'
+                                )`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para atualização de um tipo de mensagem
