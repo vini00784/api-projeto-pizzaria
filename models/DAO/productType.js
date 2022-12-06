@@ -11,7 +11,7 @@ const { PrismaClient } = require('@prisma/client')
 // Instância da classe PrismaClient
 const prisma = new PrismaClient()
 
-// Função para inserção de um novo tipo
+// Função para inserção de um novo tipo de produto
 const insertNewProductType = async (type) => {
     try {
         let sql = `insert into tbl_tipo_produto (tipo)
@@ -31,7 +31,7 @@ const insertNewProductType = async (type) => {
     }
 }
 
-// Função para atualização de um tipo
+// Função para atualização de um tipo de produto
 const updateProductType = async (type) => {
     try {
         let sql = `update tbl_tipo_produto 
@@ -51,7 +51,7 @@ const updateProductType = async (type) => {
     }
 }
 
-// Função para exclusão de um tipo
+// Função para exclusão de um tipo de produto
 const deleteProductType = async (id) => {
     try {
         let sql = `delete from tbl_tipo_produto where id = ${id}`
@@ -69,7 +69,7 @@ const deleteProductType = async (id) => {
     }
 }
 
-// Função para retornar todos os tipos
+// Função para retornar todos os tipos de produto
 const selectAllProductTypes = async () => {
     let sql = 'select cast(id as decimal) as id, tipo from tbl_tipo_produto order by id desc'
 
