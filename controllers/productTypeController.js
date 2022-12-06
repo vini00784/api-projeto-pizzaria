@@ -15,7 +15,7 @@ const newProductType = async (type) => {
     } else {
 
         // Import da model do tipo de produto
-        const newProductType = require('../models/DAO/type.js')
+        const newProductType = require('../models/DAO/productType.js')
 
         // Chama a função para inserir um novo tipo de produto
         const resultNewProductType = await newProductType.insertNewProductType(type)
@@ -36,7 +36,7 @@ const updatedProductType = async (type) => {
     } else if(type.tipo.length > 20) {
         return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
     } else {
-        const updatedProductType = require('../models/DAO/type.js')
+        const updatedProductType = require('../models/DAO/productType.js')
 
         const result = updatedProductType.updateProductType(type)
 
@@ -50,7 +50,7 @@ const updatedProductType = async (type) => {
 
 const deleteProductType = async(id) => {
     if(id != '' || id != undefined) {
-        const deletedProductType = require('../models/DAO/type.js')
+        const deletedProductType = require('../models/DAO/productType.js')
 
         const result = deletedProductType.deleteProductType(id)
 
@@ -67,7 +67,7 @@ const deleteProductType = async(id) => {
 const listAllProductTypes = async () => {
     let typesJson = {}
 
-    const { selectAllProductTypes } = require('../models/DAO/type.js')
+    const { selectAllProductTypes } = require('../models/DAO/productType.js')
 
     const productsTypesData = await selectAllProductTypes()
 
