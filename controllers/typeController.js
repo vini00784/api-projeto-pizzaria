@@ -7,7 +7,7 @@
 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config")
 
-const newType = async (type) => {
+const newProductType = async (type) => {
     if(type.tipo == '' || type.tipo == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
     } else if(type.tipo.length > 20) {
@@ -15,12 +15,12 @@ const newType = async (type) => {
     } else {
 
         // Import da model do tipo de produto
-        const newType = require('../models/DAO/type.js')
+        const newProductType = require('../models/DAO/type.js')
 
         // Chama a função para inserir um novo tipo de produto
-        const resultNewType = await newType.insertType(type)
+        const resultNewProductType = await newProductType.insertNewProductType(type)
 
-        if(resultNewType) {
+        if(resultNewProductType) {
             return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
         } else {
             return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
@@ -28,7 +28,7 @@ const newType = async (type) => {
     }
 }
 
-const updateType = async (type) => {
+const updatedProductType = async (type) => {
     if(type.id == '' || type.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
     } else if(type.tipo == '' || type.tipo == undefined) {
@@ -36,9 +36,9 @@ const updateType = async (type) => {
     } else if(type.tipo.length > 20) {
         return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
     } else {
-        const updatedType = require('../models/DAO/type.js')
+        const updatedProductType = require('../models/DAO/type.js')
 
-        const result = updatedType.updateType(type)
+        const result = updatedProductType.updateProductType(type)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
@@ -48,11 +48,11 @@ const updateType = async (type) => {
     }
 }
 
-const deleteType = async(id) => {
+const deleteProductType = async(id) => {
     if(id != '' || id != undefined) {
-        const deletedType = require('../models/DAO/type.js')
+        const deletedProductType = require('../models/DAO/type.js')
 
-        const result = deletedType.deleteType(id)
+        const result = deletedProductType.deleteProductType(id)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.DELETE_ITEM}
@@ -64,15 +64,15 @@ const deleteType = async(id) => {
     }
 }
 
-const listAllTypes = async () => {
+const listAllProductTypes = async () => {
     let typesJson = {}
 
-    const { selectAllTypes } = require('../models/DAO/type.js')
+    const { selectAllProductTypes } = require('../models/DAO/type.js')
 
-    const typesData = await selectAllTypes()
+    const productsTypesData = await selectAllProductTypes()
 
-    if(typesData) {
-        typesJson.types = typesData
+    if(productsTypesData) {
+        typesJson.types = productsTypesData
         return typesJson
     } else {
         return false
@@ -80,8 +80,8 @@ const listAllTypes = async () => {
 }
 
 module.exports = {
-    newType,
-    updateType,
-    deleteType,
-    listAllTypes
+    newProductType,
+    updatedProductType,
+    deleteProductType,
+    listAllProductTypes
 }

@@ -15,7 +15,7 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('./module/config.js')
 
 // Import das Controllers
 const productController = require('./controllers/productController.js')
-const typeController = require('./controllers/typeController.js')
+const productTypeController = require('./controllers/typeController.js')
 const categoryController = require('./controllers/categoryController.js')
 const userController = require('./controllers/userController.js')
 const ingredientController = require('./controllers/ingredientController.js')
@@ -158,7 +158,7 @@ app.delete('/v1/product/:productId', cors(), jsonParser, async (request, respons
 
 /* ENDPOINTS PARA OS TIPOS DE PRODUTOS */
 
-app.post('/v1/type', cors(), jsonParser, async (request, response) => {
+app.post('/v1/product-type', cors(), jsonParser, async (request, response) => {
     let statusCode
     let message
     let headerContentType
@@ -172,10 +172,10 @@ app.post('/v1/type', cors(), jsonParser, async (request, response) => {
         // Realiza processo de conversão de dados para conseguir identificar um JSON vazio
         if(JSON.stringify(bodyData) != '{}') {
 
-            const newType = await typeController.newType(bodyData)
+            const newProductType = await productTypeController.newProductType(bodyData)
 
-            statusCode = newType.status
-            message = newType.message
+            statusCode = newProductType.status
+            message = newProductType.message
         } else {
             statusCode = 400
             message = MESSAGE_ERROR.EMPTY_BODY
@@ -189,12 +189,12 @@ app.post('/v1/type', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
-app.get('/v1/types', cors(), async (request, response) => {
+app.get('/v1/product-types', cors(), async (request, response) => {
     let statusCode
     let message
 
     // Retorna todos os produtos existentes no banco de dados
-    const typesData = await typeController.listAllTypes()
+    const typesData = await productTypeController.listAllProductTypes()
 
     if(typesData) {
         statusCode = 200
@@ -208,7 +208,7 @@ app.get('/v1/types', cors(), async (request, response) => {
     response.json(message)
 })
 
-app.put('/v1/type/:typeId', cors(), jsonParser, async (request, response) => {
+app.put('/v1/product-type/:typeId', cors(), jsonParser, async (request, response) => {
     let statusCode
     let message
     let headerContentType
@@ -225,10 +225,10 @@ app.put('/v1/type/:typeId', cors(), jsonParser, async (request, response) => {
             if(id != '' || id != undefined) {
                 bodyData.id = id
 
-                const updatedType = await typeController.updateType(bodyData)
+                const updatedProductType = await productTypeController.updatedProductType(bodyData)
 
-                statusCode = updatedType.status
-                message = updatedType.message
+                statusCode = updatedProductType.status
+                message = updatedProductType.message
             } else {
                 statusCode = 400
                 message = MESSAGE_ERROR.REQUIRED_ID
@@ -248,17 +248,17 @@ app.put('/v1/type/:typeId', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
-app.delete('/v1/type/:typeId', cors(), jsonParser, async (request, response) => {
+app.delete('/v1/product-type/:typeId', cors(), jsonParser, async (request, response) => {
     let statusCode
     let message
     
     let id = request.params.typeId
 
     if(id != '' || id != undefined) {
-        const deletedType = await typeController.deleteType(id)
+        const deletedProductype = await productTypeController.deleteProductType(id)
 
-        statusCode = deletedType.status
-        message = deletedType.message
+        statusCode = deletedProductype.status
+        message = deletedProductype.message
     } else {
         statusCode = 400
         message = MESSAGE_ERROR.REQUIRED_ID
