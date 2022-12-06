@@ -8,7 +8,11 @@
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config")
 
 const newPromotion = async (promotion) => {
-    
+    if(promotion.nome == '' || promotion.nome == undefined || promotion.porcentagem_desconto == '' || promotion.porcentagem_desconto == undefined || promotion.preco_final == '' || promotion.preco_final == undefined || promotion.data_inicio == '' || promotion.data_inicio == undefined || promotion.data_termino == '' || promotion.data_termino == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(promotion.nome.length > 60) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    }
 }
 
 const updatedPromotion = async (promotion) => {

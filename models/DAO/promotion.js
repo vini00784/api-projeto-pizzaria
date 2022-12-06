@@ -11,22 +11,46 @@ const { PrismaClient } = require('@prisma/client')
 // Instância da classe PrismaClient
 const prisma = new PrismaClient()
 
-// Função para inserção de um novo tipo de mensagem
+// Função para inserção de uma nova promoção
 const insertNewPromotion = async (promotion) => {
-    
+    try {
+        let sql = `insert into tbl_promocao (nome,
+                                             porcentagem_desconto,
+                                             preco_final,
+                                             data_inicio,
+                                             data_termino)
+                                             values (
+                                                 '${promotion.nome}',
+                                                 ${promotion.porcentagem_desconto},
+                                                 ${promotion.preco_final},
+                                                 '${promotion.data_inicio}',
+                                                 '${promotion.data_termino}'
+                                             )` 
+         
+         const result = await prisma.$executeRawUnsafe(sql)
+
+         if(result) {
+            return true
+        } else {
+            return false
+        }
+     } catch(error) {
+         console.log(error)
+         return false
+     }
 }
 
-// Função para atualização de um tipo de mensagem
+// Função para atualização de uma promoção
 const updatePromotion = async (promotion) => {
     
 }
 
-// Função para exclusão de um tipo de mensagem
+// Função para exclusão de uma promoção
 const deletePromotion = async (id) => {
     
 }
 
-// Função para retornar todos os tipos de mensagem
+// Função para retornar todas as promoções
 const selectAllPromotions = async () => {
     
 }
