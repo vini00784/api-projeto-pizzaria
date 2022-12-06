@@ -15,7 +15,7 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('./module/config.js')
 
 // Import das Controllers
 const productController = require('./controllers/productController.js')
-const productTypeController = require('./controllers/typeController.js')
+const productTypeController = require('./controllers/productTypeController.js')
 const categoryController = require('./controllers/categoryController.js')
 const userController = require('./controllers/userController.js')
 const ingredientController = require('./controllers/ingredientController.js')
