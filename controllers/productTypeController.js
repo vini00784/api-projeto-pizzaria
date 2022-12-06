@@ -38,7 +38,7 @@ const updateProductType = async (type) => {
     } else {
         const updatedProductType = require('../models/DAO/productType.js')
 
-        const result = updateProductTyped.updateProductType(type)
+        const result = updatedProductType.updateProductType(type)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
