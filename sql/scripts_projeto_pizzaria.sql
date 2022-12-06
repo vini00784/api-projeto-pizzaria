@@ -178,7 +178,44 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
       
 ALTER TABLE tbl_ingrediente ADD COLUMN status_ingrediente boolean not null;
 ALTER TABLE tbl_ingrediente
-	MODIFY COLUMN status_ingrediente boolean DEFAULT true not null 
+	MODIFY COLUMN status_ingrediente boolean not null DEFAULT true;
 
 SELECT * FROM tbl_ingrediente;
+
+DESC tbl_ingrediente;
+
+SELECT cast(tbl_mensagem.id as decimal) as id_mensagem, tbl_mensagem.nome as nome_cliente, tbl_mensagem.email, tbl_mensagem.celular, tbl_mensagem.data_envio, tbl_mensagem.mensagem,
+	   tbl_tipo_mensagem.nome as tipo
+       FROM tbl_mensagem
+       
+       INNER JOIN tbl_tipo_mensagem
+		 ON tbl_tipo_mensagem.id = tbl_mensagem.id_tipo_mensagem;
+         
+SELECT date_format(tbl_mensagem.data_envio, '%d/%m/%Y');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       

@@ -17,17 +17,18 @@ const insertMessage = async (message) => {
         let sql = `insert into tbl_mensagem (nome,
                                              email,
                                              celular,
-                                             data,
+                                             data_envio,
                                              mensagem,
                                              id_tipo_mensagem)
                                              values (
                                                 '${message.nome}',
                                                 '${message.email}',
                                                 '${message.celular}',
-                                                '${message.data}',
+                                                '${message.data_envio}',
                                                 '${message.mensagem}',
                                                 ${message.id_tipo_mensagem}
                                              )`
+        console.log(sql)
 
         const result = await prisma.$executeRawUnsafe(sql)
 
@@ -43,23 +44,36 @@ const insertMessage = async (message) => {
 }
 
 // Função para atualização de uma mensagem
-const updateMessage = async (message) => {
+// const updateMessage = async (message) => {
     
-}
+// }
 
 // Função para exclusão de uma mensagem
-const deleteMessage = async (id) => {
+// const deleteMessage = async (id) => {
 
-}
+// }
 
 // Função para retornar todas as mensagens
 const selectAllMessages = async () => {
+    let sql = `select cast(tbl_mensagem.id as decimal) as id_mensagem, tbl_mensagem.nome as nome_cliente, tbl_mensagem.email, tbl_mensagem.celular, date_format(tbl_mensagem.data_envio, '%d/%m/%Y') as data_envio, tbl_mensagem.mensagem,
+                      tbl_tipo_mensagem.nome as tipo
+                      FROM tbl_mensagem
     
+                      INNER JOIN tbl_tipo_mensagem
+                      ON tbl_tipo_mensagem.id = tbl_mensagem.id_tipo_mensagem`
+
+    const rsMessages = await prisma.$queryRawUnsafe(sql)
+
+    if(rsMessages.length > 0) {
+        return rsMessages
+    } else {
+        return false
+    }
 }
 
 module.exports = {
     insertMessage,
-    updateMessage,
-    deleteMessage,
+    // updateMessage,
+    // deleteMessage,
     selectAllMessages
 }

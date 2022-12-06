@@ -10,7 +10,7 @@ const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../module/config.js')
 
 // Função que gera nova mensagem no BD
 const newMessage = async (message) => {
-    if(message.nome == ''|| message.nome == undefined || message.email == ''|| message.email == undefined || message.data == '' || message.data == undefined || message.mensagem == '' || message.mensagem == undefined || message.id_tipo_mensagem == '' || message.id_tipo_mensagem == undefined) {
+    if(message.nome == ''|| message.nome == undefined || message.email == ''|| message.email == undefined || message.data_envio == '' || message.data_envio == undefined || message.mensagem == '' || message.mensagem == undefined || message.id_tipo_mensagem == '' || message.id_tipo_mensagem == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
     } else if(message.nome.length > 80 || message.email.length > 256 || message.celular.length > 20) {
         return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
@@ -39,7 +39,19 @@ const deleteMessage = async (id) => {
 
 // Função que lista todas as mensagens do BD
 const listAllMessages = async () => {
-    
+    let messagesJson = {}
+
+    const { selectAllMessages } = require('../models/DAO/message.js')
+
+    const messagesData = await selectAllMessages()
+
+    if(messagesData) {
+        messagesJson.messages = messagesData
+        return messagesJson
+    } else {
+        return false
+    }
+
 }
 
 module.exports = {

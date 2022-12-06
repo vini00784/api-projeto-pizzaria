@@ -645,6 +645,24 @@ app.post('/v1/message', cors(), jsonParser, async(request, response) => {
     response.json(message)
 })
 
+app.get('/v1/messages', cors(), async(request, response) => {
+    let statusCode
+    let message
+
+    const messagesData = await messageController.listAllMessages()
+
+    if(messagesData) {
+        statusCode = 200
+        message = messagesData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA AS MENSAGENS */
 
 app.listen(3030, () => {
