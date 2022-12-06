@@ -33,8 +33,23 @@ const insertNewMessageType = async (type) => {
 }
 
 // Função para atualização de um tipo de mensagem
-const updatedNewMessageType = async (type) => {
-    
+const updateNewMessageType = async (type) => {
+    try {
+        let sql = `update tbl_tipo_mensagem
+                   set nome = '${type.nome}'
+                   where id = ${type.id}`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para exclusão de um tipo de mensagem
@@ -57,7 +72,7 @@ const selectAllMessageTypes = async () => {
 
 module.exports = {
     insertNewMessageType,
-    updatedNewMessageType,
+    updateNewMessageType,
     deleteMessageType,
     selectAllMessageTypes
 }

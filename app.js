@@ -700,6 +700,7 @@ app.post('/v1/message-type', cors(), jsonParser, async(request, response) => {
     response.status(statusCode)
     response.json(message)
 })
+
 app.get('/v1/message-types', cors(), async(request, response) => {
     let statusCode
     let message
@@ -712,6 +713,43 @@ app.get('/v1/message-types', cors(), async(request, response) => {
     } else {
         statusCode = 404
         message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+app.put('/v1/message-type/:messageTypeId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            let id = request.params.messageTypeId
+
+            if(id != '' && id != undefined) {
+                bodyData.id = id
+
+                const updatedMessageType = await messageTypeController.updateMessageType(bodyData)
+
+                statusCode = updatedMessageType.status
+                message = updatedMessageType.message
+            } else {
+                statusCode = 400
+                message = MESSAGE_ERROR.REQUIRED_ID
+            }
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
     }
 
     response.status(statusCode)

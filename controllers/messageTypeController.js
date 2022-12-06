@@ -26,7 +26,23 @@ const newMessageType = async (type) => {
 }
 
 const updateMessageType = async (type) => {
+    if(type.id == ''|| type.id == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    } else if(type.nome == '' || type.nome == undefined) {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    } else if(type.nome.length > 20) {
+        return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    } else {
+        const updatedMessageType = require('../models/DAO/messageType.js')
 
+        const result = updatedMessageType.updateNewMessageType(type)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    }
 }
 
 const deleteMessageType = async (id) => {
