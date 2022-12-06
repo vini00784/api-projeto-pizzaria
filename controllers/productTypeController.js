@@ -28,7 +28,7 @@ const newProductType = async (type) => {
     }
 }
 
-const updatedProductType = async (type) => {
+const updateProductType = async (type) => {
     if(type.id == '' || type.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
     } else if(type.tipo == '' || type.tipo == undefined) {
@@ -38,7 +38,7 @@ const updatedProductType = async (type) => {
     } else {
         const updatedProductType = require('../models/DAO/productType.js')
 
-        const result = updatedProductType.updateProductType(type)
+        const result = updateProductTyped.updateProductType(type)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}
@@ -81,7 +81,7 @@ const listAllProductTypes = async () => {
 
 module.exports = {
     newProductType,
-    updatedProductType,
+    updateProductType,
     deleteProductType,
     listAllProductTypes
 }

@@ -225,7 +225,7 @@ app.put('/v1/product-type/:typeId', cors(), jsonParser, async (request, response
             if(id != '' || id != undefined) {
                 bodyData.id = id
 
-                const updatedProductType = await productTypeController.updatedProductType(bodyData)
+                const updatedProductType = await productTypeController.updateProductType(bodyData)
 
                 statusCode = updatedProductType.status
                 message = updatedProductType.message
