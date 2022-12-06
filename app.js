@@ -19,6 +19,7 @@ const typeController = require('./controllers/typeController.js')
 const categoryController = require('./controllers/categoryController.js')
 const userController = require('./controllers/userController.js')
 const ingredientController = require('./controllers/ingredientController.js')
+const messageController = require('./controllers/messageController.js')
 
 const app = express()
 
@@ -489,7 +490,7 @@ app.delete('/v1/user/:userId', cors(), jsonParser, async(request, response) => {
 
 /*******************************************************/
 
-/* ENDPOINTS PARA OS USUÁRIOS */
+/* ENDPOINTS PARA OS INGREDIENTES */
 
 app.post('/v1/ingredient', cors(), jsonParser, async(request, response) => {
     let statusCode
@@ -613,7 +614,38 @@ app.put('/v1/ingredient/rehabilitate/:ingredientId', cors(), jsonParser, async(r
     response.json(message)
 })
 
-/* ENDPOINTS PARA OS USUÁRIOS */
+/* ENDPOINTS PARA OS INGREDIENTES */
+
+/*******************************************************/
+
+/* ENDPOINTS PARA AS MENSAGENS */
+
+app.post('/v1/message', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            const newMessage = await messageController.newMessage(bodyData)
+
+            statusCode = newMessage.status
+            message = newMessage.message
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+/* ENDPOINTS PARA AS MENSAGENS */
 
 app.listen(3030, () => {
     console.log('Server waiting for requests...');

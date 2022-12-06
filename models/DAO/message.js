@@ -13,7 +13,33 @@ const prisma = new PrismaClient()
 
 // Função para inserção de uma nova mensagem
 const insertMessage = async (message) => {
+    try {
+        let sql = `insert into tbl_mensagem (nome,
+                                             email,
+                                             celular,
+                                             data,
+                                             mensagem,
+                                             id_tipo_mensagem)
+                                             values (
+                                                '${message.nome}',
+                                                '${message.email}',
+                                                '${message.celular}',
+                                                '${message.data}',
+                                                '${message.mensagem}',
+                                                ${message.id_tipo_mensagem}
+                                             )`
 
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para atualização de uma mensagem
