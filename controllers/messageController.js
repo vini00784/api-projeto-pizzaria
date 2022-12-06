@@ -1,7 +1,7 @@
 /*
     Objetivo:     Arquivo responsável pela manipulação dos dados das mensagens com o Banco de Dados (insert, update, delete e select)
     Autores:      Vinícius Santos Oliveira e Arthur Piloto Silva
-    Data Criação: 23/11/2022
+    Data Criação: 06/12/2022
     Versão:       1.0
 */
 

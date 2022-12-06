@@ -1,7 +1,7 @@
 /*
     Objetivo:     API responsável pela manipulação dos dados dos tipos de mensagem com o Banco de Dados (INSERT, UPDATE, SELECT, DELETE)
     Autores:      Vinícius Santos Oliveira e Arthur Piloto Silva
-    Data Criação: 23/11/2022
+    Data Criação: 06/12/2022
     Versão:       1.0
 */
 
