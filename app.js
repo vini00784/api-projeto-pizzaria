@@ -671,7 +671,7 @@ app.get('/v1/messages', cors(), async(request, response) => {
 
 /*******************************************************/
 
-/* ENDPOINTS PARA AS TIPOS DE MENSAGENS */
+/* ENDPOINTS PARA OS TIPOS DE MENSAGENS */
 
 app.post('/v1/message-type', cors(), jsonParser, async(request, response) => {
     let statusCode
@@ -750,6 +750,25 @@ app.put('/v1/message-type/:messageTypeId', cors(), jsonParser, async(request, re
     } else {
         statusCode = 415
         message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+app.delete('/v1/message-type/:messageTypeId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let id = request.params.messageTypeId
+
+    if(id != '' && id != undefined) {
+        const deletedMessageType = await messageTypeController.deleteMessageType(id)
+
+        statusCode = deletedMessageType.status
+        message = deletedMessageType.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
     }
 
     response.status(statusCode)
