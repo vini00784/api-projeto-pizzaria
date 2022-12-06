@@ -184,7 +184,7 @@ SELECT * FROM tbl_ingrediente;
 
 DESC tbl_ingrediente;
 
-SELECT cast(tbl_mensagem.id as decimal) as id_mensagem, tbl_mensagem.nome as nome_cliente, tbl_mensagem.email, tbl_mensagem.celular, tbl_mensagem.data_envio, tbl_mensagem.mensagem,
+SELECT cast(tbl_mensagem.id as decimal) as id_mensagem, tbl_mensagem.nome as nome_cliente, tbl_mensagem.email, tbl_mensagem.celular, date_format(tbl_mensagem.data_envio, '%d/%m/%Y'), tbl_mensagem.mensagem,
 	   tbl_tipo_mensagem.nome as tipo
        FROM tbl_mensagem
        
