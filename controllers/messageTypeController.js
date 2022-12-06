@@ -35,7 +35,7 @@ const updateMessageType = async (type) => {
     } else {
         const updatedMessageType = require('../models/DAO/messageType.js')
 
-        const result = updatedMessageType.updateNewMessageType(type)
+        const result = updatedMessageType.updateMessageType(type)
 
         if(result) {
             return {status: 200, message: MESSAGE_SUCCESS.UPDATE_ITEM}

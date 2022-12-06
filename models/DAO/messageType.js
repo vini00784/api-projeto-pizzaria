@@ -33,7 +33,7 @@ const insertNewMessageType = async (type) => {
 }
 
 // Função para atualização de um tipo de mensagem
-const updateNewMessageType = async (type) => {
+const updateMessageType = async (type) => {
     try {
         let sql = `update tbl_tipo_mensagem
                    set nome = '${type.nome}'
@@ -85,7 +85,7 @@ const selectAllMessageTypes = async () => {
 
 module.exports = {
     insertNewMessageType,
-    updateNewMessageType,
+    updateMessageType,
     deleteMessageType,
     selectAllMessageTypes
 }
