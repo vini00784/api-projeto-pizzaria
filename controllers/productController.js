@@ -1,5 +1,5 @@
 /*
-    Objetivo:     Arquivo responsável pela manipulação dos dados dos alunos com o Banco de Dados (insert, update, delete e select)
+    Objetivo:     Arquivo responsável pela manipulação dos dados dos produtos com o Banco de Dados (insert, update, delete e select)
     Autores:      Vinícius Santos Oliveira e Arthur Piloto Silva
     Data Criação: 23/11/2022
     Versão:       1.0
