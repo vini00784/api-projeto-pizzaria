@@ -827,6 +827,43 @@ app.get('/v1/promotions', cors(), async(request, response) => {
     response.json(message)
 })
 
+app.put('/v1/promotion/:promotionId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            let id = request.params.promotionId
+
+            if(id != '' && id != undefined) {
+                bodyData.id = id
+
+                const updatedPromotion = await promotionController.updatePromotion(bodyData)
+
+                statusCode = updatedPromotion.status
+                message = updatedPromotion.message
+            } else {
+                statusCode = 400
+                message = MESSAGE_ERROR.REQUIRED_ID
+            }
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA AS PROMOÇÕES */
 
 app.listen(3030, () => {

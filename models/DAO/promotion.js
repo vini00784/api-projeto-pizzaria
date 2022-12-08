@@ -42,7 +42,26 @@ const insertNewPromotion = async (promotion) => {
 
 // Função para atualização de uma promoção
 const updatePromotion = async (promotion) => {
-    
+    try {
+        let sql = `update tbl_promocao
+                   set nome = '${promotion.nome}',
+                   porcentagem_desconto = ${promotion.porcentagem_desconto},
+                   preco_final = ${promotion.preco_final},
+                   data_inicio = '${promotion.data_inicio}',
+                   data_termino = '${promotion.data_termino}'
+                   where id = ${promotion.id}`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para exclusão de uma promoção
