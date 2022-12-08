@@ -34,7 +34,18 @@ const deletePromotion = async (id) => {
 }
 
 const listAllPromotions = async () => {
-    
+    let promotionsJson = {}
+
+    const { selectAllPromotions } = require('../models/DAO/promotion.js')
+
+    const promotionsData = await selectAllPromotions()
+
+    if(promotionsData) {
+        promotionsJson.promotions = promotionsData
+        return promotionsJson
+    } else {
+        return false
+    }
 }
 
 module.exports = {

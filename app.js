@@ -809,6 +809,24 @@ app.post('/v1/promotion', cors(), jsonParser, async(request, response) => {
     response.json(message)
 })
 
+app.get('/v1/promotions', cors(), async(request, response) => {
+    let statusCode
+    let message
+
+    const promotionsData = await promotionController.listAllPromotions()
+
+    if(promotionsData) {
+        statusCode = 200
+        message = promotionsData
+    } else {
+        statusCode = 404
+        message = MESSAGE_ERROR.NOT_FOUND_DB
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA AS PROMOÇÕES */
 
 app.listen(3030, () => {
