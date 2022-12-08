@@ -777,6 +777,40 @@ app.delete('/v1/message-type/:messageTypeId', cors(), jsonParser, async(request,
 
 /* ENDPOINTS PARA AS TIPOS DE MENSAGENS */
 
+/*******************************************************/
+
+/* ENDPOINTS PARA AS PROMOÇÕES */
+
+app.post('/v1/promotion', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        let bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            const newPromotion = await promotionController.newPromotion(bodyData)
+
+            statusCode = newPromotion.status
+            message = newPromotion.message
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+/* ENDPOINTS PARA AS PROMOÇÕES */
+
 app.listen(3030, () => {
     console.log('Server waiting for requests...');
 })

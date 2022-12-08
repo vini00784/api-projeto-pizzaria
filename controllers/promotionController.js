@@ -12,6 +12,16 @@ const newPromotion = async (promotion) => {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
     } else if(promotion.nome.length > 60) {
         return {status: 400, message: MESSAGE_ERROR.EXCEEDED_CHARACTERS}
+    } else {
+        const newPromotion = require('../models/DAO/promotion.js')
+
+        const resultNewPromotion = newPromotion.insertNewPromotion(promotion)
+
+        if(resultNewPromotion) {
+            return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
     }
 }
 
