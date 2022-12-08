@@ -60,6 +60,8 @@ const turnOffIngredient = async (id) => {
         } else {
             return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
         }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
     }
 }
 
@@ -74,6 +76,8 @@ const turnOnIngredient = async (id) => {
         } else {
             return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
         }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
     }
 }
 
