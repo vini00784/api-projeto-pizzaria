@@ -71,7 +71,7 @@ const deletePromotion = async (id) => {
 
 // Função para retornar todas as promoções
 const selectAllPromotions = async () => {
-    let sql = `select cast(id as decimal) as id, nome, porcentagem_desconto, preco_final, date_format(data_inicio, '%d/%m/%Y') as data_inicio, date_format(data_termino, '%d/%m/%Y') as data_termino from tbl_promocao`
+    let sql = `select cast(id as decimal) as id, nome, porcentagem_desconto, preco_final, date_format(data_inicio, '%d/%m/%Y') as data_inicio, date_format(data_termino, '%d/%m/%Y') as data_termino from tbl_promocao order by id desc`
 
     const rsPromotions = await prisma.$queryRawUnsafe(sql)
 
