@@ -46,7 +46,19 @@ const updatedPromotion = async (promotion) => {
 }
 
 const deletePromotion = async (id) => {
-    
+    if(id != '' && id != undefined) {
+        const deletedPromotion = require('../models/DAO/promotion.js')
+
+        const result = await deletedPromotion.deletePromotion(id)
+
+        if(result) {
+            return {status: 200, message: MESSAGE_SUCCESS.DELETE_ITEM}
+        } else {
+            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+        }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
+    }
 }
 
 const listAllPromotions = async () => {

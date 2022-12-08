@@ -864,6 +864,26 @@ app.put('/v1/promotion/:promotionId', cors(), jsonParser, async(request, respons
     response.json(message)
 })
 
+app.delete('/v1/promotion/:promotionId', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+
+    let id = request.params.promotionId
+
+    if(id != '' && id != undefined) {
+        const deletedPromotion = await promotionController.deletePromotion(id)
+
+        statusCode = deletedPromotion.status
+        message = deletedPromotion.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA AS PROMOÇÕES */
 
 app.listen(3030, () => {

@@ -66,7 +66,20 @@ const updatePromotion = async (promotion) => {
 
 // Função para exclusão de uma promoção
 const deletePromotion = async (id) => {
-    
+    try {
+        let sql = `delete from tbl_promocao where id = ${id}`
+
+        const result = await prisma.$executeRawUnsafe(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+    } catch(error) {
+        console.log(error)
+        return false
+    }
 }
 
 // Função para retornar todas as promoções
