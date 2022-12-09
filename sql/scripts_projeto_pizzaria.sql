@@ -193,6 +193,27 @@ SELECT cast(tbl_mensagem.id as decimal) as id_mensagem, tbl_mensagem.nome as nom
          
 SELECT date_format(tbl_mensagem.data_envio, '%d/%m/%Y');
 
+SELECT * from tbl_produto;
+
+SELECT tbl_produto.id as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao,
+	   tbl_tipo_produto.tipo as tipo_produto,
+       tbl_categoria.nome as nome_categoria,
+       tbl_ingrediente.nome as nome_ingrediente
+       
+       FROM tbl_produto
+       INNER JOIN tbl_tipo_produto
+		 ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+	   INNER JOIN tbl_categoria
+		 ON tbl_categoria.id = tbl_produto.id_categoria
+	   INNER JOIN tbl_ingrediente_produto
+		 ON tbl_produto.id = tbl_ingrediente_produto.id_produto
+	   INNER JOIN tbl_ingrediente
+		 ON tbl_ingrediente.id = tbl_ingrediente_produto.id_ingrediente;
+         
+SELECT id from tbl_categoria where nome like 'Bebida';
+
+select id from tbl_tipo_produto where tipo like 'Doce'
+
 
 
 
