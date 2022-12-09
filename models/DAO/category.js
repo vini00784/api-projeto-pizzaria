@@ -82,9 +82,23 @@ const selectAllCategories = async () => {
     }
 }
 
+//Função para retornar o ID de acordo com o nome da Categoria 
+const selectCategoryId = async(categoryName) => {
+    let sql = `select id from tbl_categoria where nome like '${categoryName}'`
+
+    const rsId = await prisma.$queryRawUnsafe(sql)
+
+    if(rsId.length > 0) {
+        return rsId
+    } else {
+        return false
+    }
+}
+
 module.exports = {
     insertCategory,
     updateCategory,
     deleteCategory,
-    selectAllCategories
+    selectAllCategories,
+    selectCategoryId
 }

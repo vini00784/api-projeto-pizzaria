@@ -83,9 +83,27 @@ const listAllCategories = async () => {
     }
 }
 
+const selectCategoryId = async (categoryName) => {
+    if(categoryName != '' && categoryName != undefined) {
+        let idJson = {}
+    
+        const { selectCategoryId } = require('../models/DAO/category.js')
+    
+        const id = await selectCategoryId(categoryName)
+    
+        if(id) {
+            idJson.id = id
+            return id
+        } else {
+            return {status: 404, message: MESSAGE_ERROR.NOT_FOUND_DB}
+        }
+    }
+}
+
 module.exports = {
     newCategory,
     updateCategory,
     deleteCategory,
-    listAllCategories
+    listAllCategories,
+    selectCategoryId
 }

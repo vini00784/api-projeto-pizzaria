@@ -21,6 +21,8 @@ const userController = require('./controllers/userController.js')
 const ingredientController = require('./controllers/ingredientController.js')
 const messageController = require('./controllers/messageController.js')
 const messageTypeController = require('./controllers/messageTypeController.js')
+const promotionController = require('./controllers/promotionController.js')
+const { response } = require('express')
 
 const app = express()
 
@@ -372,6 +374,31 @@ app.delete('/v1/category/:categoryId', cors(), jsonParser, async(request, respon
     } else {
         statusCode = 400
         message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+app.get('/v1/category/:categoryName', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let categoryName = request.params.categoryName
+
+    if(categoryName != '' && categoryName != undefined) {
+        const categoryId = await categoryController.selectCategoryId(categoryName)
+
+        if(categoryId) {
+            statusCode = 200
+            message = categoryId
+        } else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
     }
 
     response.status(statusCode)
