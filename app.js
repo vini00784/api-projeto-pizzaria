@@ -271,6 +271,31 @@ app.delete('/v1/product-type/:typeId', cors(), jsonParser, async (request, respo
     response.json(message)
 })
 
+app.get('/v1/product-type/:productTypeName', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let productTypeName = request.params.productTypeName
+
+    if(productTypeName != '' && productTypeName != undefined) {
+        const productTypeId = await productTypeController.selectProductTypeId(productTypeName)
+
+        if(productTypeId) {
+            statusCode = 200
+            message = productTypeId
+        } else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA OS TIPOS DE PRODUTOS */
 
 /*******************************************************/

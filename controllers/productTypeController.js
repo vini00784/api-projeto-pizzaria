@@ -79,9 +79,27 @@ const listAllProductTypes = async () => {
     }
 }
 
+const selectProductTypeId = async (productTypeName) => {
+    if(productTypeName != '' && productTypeName != undefined) {
+        let idJson = {}
+    
+        const { selectProductTypeId } = require('../models/DAO/productType.js')
+    
+        const id = await selectProductTypeId(productTypeName)
+    
+        if(id) {
+            idJson.id = id
+            return id
+        } else {
+            false
+        }
+    }
+}
+
 module.exports = {
     newProductType,
     updateProductType,
     deleteProductType,
-    listAllProductTypes
+    listAllProductTypes,
+    selectProductTypeId
 }

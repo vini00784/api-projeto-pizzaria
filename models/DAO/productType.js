@@ -82,9 +82,24 @@ const selectAllProductTypes = async () => {
     }
 }
 
+//Função para retornar o ID de acordo com o nome do Tipo 
+const selectProductTypeId = async(productTypeName) => {
+    let sql = `select id from tbl_tipo_produto where tipo like '${productTypeName}'`
+
+    const rsId = await prisma.$queryRawUnsafe(sql)
+    console.log(rsId)
+
+    if(rsId.length > 0) {
+        return rsId
+    } else {
+        return false
+    }
+}
+
 module.exports = {
     insertNewProductType,
     updateProductType,
     deleteProductType,
-    selectAllProductTypes
+    selectAllProductTypes,
+    selectProductTypeId
 }
