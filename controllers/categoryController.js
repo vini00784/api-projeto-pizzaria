@@ -95,7 +95,7 @@ const selectCategoryId = async (categoryName) => {
             idJson.id = id
             return id
         } else {
-            return {status: 404, message: MESSAGE_ERROR.NOT_FOUND_DB}
+            return false
         }
     }
 }
