@@ -173,6 +173,25 @@ app.get('/v1/products/category/:productCategory', cors(), async(request, respons
     response.json(message)
 })
 
+app.get('/v1/products/type/:productType', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let productType = request.params.productType
+
+    if(productType != '' && productType != undefined) {
+        const productsByType = await productController.listProductsByType(productType)
+
+        statusCode = productsByType.status
+        message = productsByType.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 
 /* ENDPOINTS PARA OS PRODUTOS */ 
 

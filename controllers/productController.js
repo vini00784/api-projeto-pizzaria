@@ -146,8 +146,23 @@ const listProductsByCategory = async (productCategory) => {
 }
 
 // Função que lista os produtos do BD com base no tipo
-const listProductsByType = async () => {
+const listProductsByType = async (productType) => {
+    if(productType != '' && productType != undefined) {
+        let productsByTypeJson = {}
 
+        const { selectProductsByType } = require('../models/DAO/product.js')
+
+        const productsByTypeData = await selectProductsByType(productType)
+
+        if(productsByTypeData) {
+            productsByTypeJson.products = productsByTypeData
+            return {status: 200, message: productsByTypeJson}
+        } else {
+            return {status: 404, message: MESSAGE_ERROR.NOT_FOUND_DB}
+        }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    }
 }
 
 // Função que lista os produtos do BD com base no nome
@@ -160,5 +175,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     listAllProducts,
-    listProductsByCategory
+    listProductsByCategory,
+    listProductsByType
 }

@@ -115,10 +115,10 @@ const selectProductsByCategory = async (productCategory) => {
       
                       WHERE tbl_categoria.nome LIKE "${productCategory}"`
 
-    const rsProduct = await prisma.$queryRawUnsafe(sql)
+    const rsProductsByCategory = await prisma.$queryRawUnsafe(sql)
 
-    if(rsProduct.length > 0) {
-        return rsProduct
+    if(rsProductsByCategory.length > 0) {
+        return rsProductsByCategory
     } else {
         return false
     }
@@ -126,7 +126,23 @@ const selectProductsByCategory = async (productCategory) => {
 
 // Função para retornar produtos com base no tipo (se é pizza doce, salgada...)
 const selectProductsByType = async (productType) => {
+    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto,     tbl_produto.descricao,
+                      tbl_tipo_produto.tipo as nome_tipo
+                      FROM tbl_produto
+    
+                      INNER JOIN tbl_tipo_produto
+                        ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+      
+                      WHERE tbl_tipo_produto.tipo LIKE "${productType}"`
 
+    const rsProductsByType = await prisma.$queryRawUnsafe(sql)
+    console.log(rsProductsByType)
+
+    if(rsProductsByType.length > 0) {
+        return rsProductsByType
+    } else {
+        return false
+    }
 }
 
 // Função para retornar produtos com base no nome
