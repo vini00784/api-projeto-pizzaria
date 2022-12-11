@@ -136,7 +136,6 @@ const selectProductsByType = async (productType) => {
                       WHERE tbl_tipo_produto.tipo LIKE "${productType}"`
 
     const rsProductsByType = await prisma.$queryRawUnsafe(sql)
-    console.log(rsProductsByType)
 
     if(rsProductsByType.length > 0) {
         return rsProductsByType
