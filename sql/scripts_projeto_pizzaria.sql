@@ -217,13 +217,29 @@ SELECT id FROM tbl_tipo_produto WHERE tipo LIKE 'Doce';
 DESC tbl_promocao_produto;
 
 SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao,
-	   tbl_categoria.nome as nome_categoria
+	   tbl_categoria.nome as nome_categoria,
+       tbl_ingrediente.nome as nome_ingrediente
        FROM tbl_produto
        
        INNER JOIN tbl_categoria
 		 ON tbl_categoria.id = tbl_produto.id_categoria
+	   INNER JOIN tbl_ingrediente_produto
+		 ON tbl_produto.id = tbl_ingrediente_produto.id_produto
+	   INNER JOIN tbl_ingrediente
+		 ON tbl_ingrediente.id = tbl_ingrediente_produto.id_ingrediente
          
-	   WHERE tbl_categoria.nome LIKE "Pizza"
+	   WHERE tbl_categoria.nome LIKE "Pizza";
+       
+SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao,
+	   tbl_tipo_produto.tipo as nome_tipo
+       FROM tbl_produto
+       
+       INNER JOIN tbl_tipo_produto
+		 ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+         
+	   WHERE tbl_tipo_produto.tipo LIKE "Salgada";
+       
+desc tbl_tipo_produto;
 
 
 
