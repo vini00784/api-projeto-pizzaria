@@ -154,6 +154,25 @@ app.delete('/v1/product/:productId', cors(), jsonParser, async (request, respons
     response.json(message)
 })
 
+app.get('/v1/products/category/:productCategory', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let productCategory = request.params.productCategory
+
+    if(productCategory != '' && productCategory != undefined) {
+        const productsByCategory = await productController.listProductsByCategory(productCategory)
+
+        statusCode = productsByCategory.status
+        message = productsByCategory.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 
 /* ENDPOINTS PARA OS PRODUTOS */ 
 

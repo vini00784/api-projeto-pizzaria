@@ -24,6 +24,9 @@ const newProduct = async (product) => {
         // Import da model do ingrediente_produto
         const newProductIngredient = require('../models/DAO/productIngredient.js')
 
+        // Import da model de promocao_produto
+        const newProductPromotion = require('../models/DAO/productPromotion.js')
+
         // Chama a função para inserir um novo produto
         const resultNewProduct = await newProduct.insertProduct(product)
         
@@ -123,8 +126,23 @@ const listAllProducts = async () => {
 }
 
 // Função que lista os produtos do BD com base na categoria
-const listProductsByCategory = async () => {
+const listProductsByCategory = async (productCategory) => {
+    if(productCategory != '' && productCategory != undefined) {
+        let productsByCategoryJson = {}
 
+        const { selectProductsByCategory } = require('../models/DAO/product.js')
+
+        const productsByCategoryData = await selectProductsByCategory(productCategory)
+
+        if(productsByCategoryData) {
+            productsByCategoryJson.products = productsByCategoryData
+            return {status: 200, message: productsByCategoryJson}
+        } else {
+            return {status: 404, message: MESSAGE_ERROR.NOT_FOUND_DB}
+        }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    }
 }
 
 // Função que lista os produtos do BD com base no tipo
@@ -141,5 +159,6 @@ module.exports = {
     newProduct,
     updateProduct,
     deleteProduct,
-    listAllProducts
+    listAllProducts,
+    listProductsByCategory
 }

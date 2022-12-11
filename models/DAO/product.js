@@ -93,7 +93,7 @@ const deleteProduct = async (id) => {
 
 // Função para retornar todos os produtos
 const selectAllProducts = async () => {
-    let sql = 'select cast(id as decimal) as id, nome, preco, foto, descricao, qtde_favorito from tbl_produto order by id desc'
+    let sql = `select cast(id as decimal) as id, nome, preco, foto, descricao, qtde_favorito from tbl_produto order by id desc`
 
     const rsProducts = await prisma.$queryRawUnsafe(sql)
 
@@ -106,7 +106,22 @@ const selectAllProducts = async () => {
 
 // Função para retornar produtos com base na categoria (se é Pizza, Bebida...)
 const selectProductsByCategory = async (productCategory) => {
+    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao,
+                      tbl_categoria.nome as nome_categoria
+                      FROM tbl_produto
     
+                      INNER JOIN tbl_categoria
+                      ON tbl_categoria.id = tbl_produto.id_categoria
+      
+                      WHERE tbl_categoria.nome LIKE "${productCategory}"`
+
+    const rsProduct = await prisma.$queryRawUnsafe(sql)
+
+    if(rsProduct.length > 0) {
+        return rsProduct
+    } else {
+        return false
+    }
 }
 
 // Função para retornar produtos com base no tipo (se é pizza doce, salgada...)
