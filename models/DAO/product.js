@@ -165,8 +165,28 @@ const selectProductsByType = async (productType) => {
 }
 
 // Função para retornar produtos com base no nome
-const selectProductByName = async (productName) => {
+const selectProductsByName = async (productName) => {
+    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao, tbl_produto.qtde_favorito,
+    tbl_tipo_produto.tipo as nome_tipo,
+    tbl_categoria.nome as nome_categoria
+    
+    FROM tbl_produto
+    
+    INNER JOIN tbl_tipo_produto
+      ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+      
+    INNER JOIN tbl_categoria
+      ON tbl_categoria.id = tbl_produto.id_categoria
+      
+      WHERE locate('${productName}', tbl_produto.nome)`
 
+    const rsProductsByName = await prisma.$queryRawUnsafe(sql)
+
+    if(rsProductsByName.length > 0) {
+        return rsProductsByName
+    } else {
+        return false
+    }
 }
 
 // Função para retornar o último ID de produto gerado no banco
@@ -192,6 +212,6 @@ module.exports = {
     selectAllProducts,
     selectProductsByCategory,
     selectProductsByType,
-    selectProductByName,
+    selectProductsByName,
     selectLastId
 }

@@ -187,8 +187,34 @@ const listProductsByType = async (productType) => {
 }
 
 // Função que lista os produtos do BD com base no nome
-const listProductByName = async () => {
+const listProductsByName = async (productName) => {
+    if(productName != '' && productName != undefined) {
+        let productsByNameJson = {}
 
+        const { selectProductsByName } = require('../models/DAO/product.js')
+        const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
+
+        const productsByNameData = await selectProductsByName(productName.toLowerCase())
+
+        if(productsByNameData) {
+            const productIngredientArray = productsByNameData.map(async productItem => {
+                const productIngredientData = await selectProductIngredient(productItem.id_produto)
+
+                if(productIngredientData) {
+                    productItem.ingrediente = productIngredientData
+                }
+
+                return productItem
+            })
+
+            productsByNameJson.products = await Promise.all(productIngredientArray)
+            return {status: 200, message: productsByNameJson}
+        } else {
+            return {status: 404, message: MESSAGE_ERROR.NOT_FOUND_DB}
+        }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    }
 }
 
 module.exports = {
@@ -197,5 +223,6 @@ module.exports = {
     deleteProduct,
     listAllProducts,
     listProductsByCategory,
-    listProductsByType
+    listProductsByType,
+    listProductsByName
 }
