@@ -19,7 +19,7 @@ const newProduct = async (product) => {
     } else {
 
         // Import da model do produto
-        const newProduct = require('../models/DAO/product')
+        const newProduct = require('../models/DAO/product.js')
 
         // Import da model do ingrediente_produto
         const newProductIngredient = require('../models/DAO/productIngredient.js')
@@ -39,9 +39,25 @@ const newProduct = async (product) => {
                 productIngredient.id_produto = newProductId
                 productIngredient.id_ingrediente = product.ingrediente[0].id_ingrediente
 
-                const resultNewProductIngredient = newProductIngredient.insertProductIngredient(productIngredient)
+                const resultNewProductIngredient = await newProductIngredient.insertProductIngredient(productIngredient)
 
                 if(resultNewProductIngredient) {
+                    let productPromotion = {}
+
+                    productPromotion.id_produto = newProductId
+                    productPromotion.id_promocao = product.promocao[0].id_promocao
+
+                    if(productPromotion.id_promocao != 0) {
+                        const resultNewProductPromotion = await newProductPromotion.insertProductPromotion(productPromotion)
+    
+                        if(resultNewProductPromotion) {
+                            return {status:201, message: MESSAGE_SUCCESS.INSERT_ITEM}
+                        } else {
+                            await deleteProduct(newProductId)
+                            return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
+                        }
+                    }
+
                     return {status:201, message: MESSAGE_SUCCESS.INSERT_ITEM}
                 } else {
                     await deleteProduct(newProductId)
