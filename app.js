@@ -22,7 +22,6 @@ const ingredientController = require('./controllers/ingredientController.js')
 const messageController = require('./controllers/messageController.js')
 const messageTypeController = require('./controllers/messageTypeController.js')
 const promotionController = require('./controllers/promotionController.js')
-const { response } = require('express')
 
 const app = express()
 
@@ -183,6 +182,25 @@ app.get('/v1/products/type/:productType', cors(), async(request, response) => {
 
         statusCode = productsByType.status
         message = productsByType.message
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+app.get('/v1/products/name/:productName', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let productName = request.params.productName
+
+    if(productName != '' && productName != undefined) {
+        const productsByName = await productController.listProductsByName(productName)
+
+        statusCode = productsByName.status
+        message = productsByName.message
     } else {
         statusCode = 400
         message = MESSAGE_ERROR.REQUIRED_FIELDS
