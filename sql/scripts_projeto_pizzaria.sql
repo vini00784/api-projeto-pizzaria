@@ -266,7 +266,9 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
 		 ON tbl_produto.id = tbl_promocao_produto.id_produto
          
 	   INNER JOIN tbl_promocao
-		 ON tbl_promocao.id = tbl_promocao_produto.id_promocao
+		 ON tbl_promocao.id = tbl_promocao_produto.id_promocao;
+         
+SELECT * FROM tbl_ingrediente_produto;
 
 
 
