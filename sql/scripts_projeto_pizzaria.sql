@@ -251,7 +251,9 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
 		 ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
          
 	   INNER JOIN tbl_categoria
-		 ON tbl_categoria.id = tbl_produto.id_categoria;
+		 ON tbl_categoria.id = tbl_produto.id_categoria
+         
+         WHERE locate('tes', tbl_produto.nome);
 
 
 
