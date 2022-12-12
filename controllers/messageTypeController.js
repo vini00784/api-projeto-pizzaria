@@ -5,7 +5,7 @@
     Versão:       1.0
 */
 
-const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config")
+const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config.js")
 
 const newMessageType = async (type) => {
     if(type.nome == '' || type.nome == undefined) {

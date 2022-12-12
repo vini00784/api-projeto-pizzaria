@@ -103,7 +103,9 @@ const selectAllProducts = async () => {
       ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
       
     INNER JOIN tbl_categoria
-      ON tbl_categoria.id = tbl_produto.id_categoria`
+      ON tbl_categoria.id = tbl_produto.id_categoria
+      
+    ORDER BY tbl_produto.id desc`
 
     const rsProducts = await prisma.$queryRawUnsafe(sql)
 
@@ -128,7 +130,8 @@ const selectProductsByCategory = async (productCategory) => {
     INNER JOIN tbl_categoria
       ON tbl_categoria.id = tbl_produto.id_categoria
       
-                      WHERE tbl_categoria.nome LIKE "${productCategory}"`
+    WHERE tbl_categoria.nome LIKE "${productCategory}"
+    ORDER BY tbl_produto.id desc`
 
     const rsProductsByCategory = await prisma.$queryRawUnsafe(sql)
 
@@ -153,7 +156,8 @@ const selectProductsByType = async (productType) => {
     INNER JOIN tbl_categoria
       ON tbl_categoria.id = tbl_produto.id_categoria
       
-                      WHERE tbl_tipo_produto.tipo LIKE "${productType}"`
+    WHERE tbl_tipo_produto.tipo LIKE "${productType}"
+    ORDER BY tbl_produto.id desc`
 
     const rsProductsByType = await prisma.$queryRawUnsafe(sql)
 
@@ -178,7 +182,8 @@ const selectProductsByName = async (productName) => {
     INNER JOIN tbl_categoria
       ON tbl_categoria.id = tbl_produto.id_categoria
       
-      WHERE locate('${productName}', tbl_produto.nome)`
+    WHERE locate('${productName}', tbl_produto.nome)
+    ORDER BY tbl_produto.id desc`
 
     const rsProductsByName = await prisma.$queryRawUnsafe(sql)
 

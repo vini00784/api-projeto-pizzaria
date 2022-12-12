@@ -5,7 +5,7 @@
     Versão:       1.0
 */
 
-const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config")
+const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config.js")
 
 const newPromotion = async (promotion) => {
     if(promotion.nome == '' || promotion.nome == undefined || promotion.porcentagem_desconto == '' || promotion.porcentagem_desconto == undefined || promotion.preco_final == '' || promotion.preco_final == undefined || promotion.data_inicio == '' || promotion.data_inicio == undefined || promotion.data_termino == '' || promotion.data_termino == undefined) {
