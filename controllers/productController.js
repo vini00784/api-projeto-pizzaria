@@ -37,11 +37,14 @@ const newProduct = async (product) => {
                 let productIngredient = {}
 
                 productIngredient.id_produto = newProductId
-                productIngredient.id_ingrediente = product.ingrediente[0].id_ingrediente
 
-                const resultNewProductIngredient = await newProductIngredient.insertProductIngredient(productIngredient)
-
-                if(resultNewProductIngredient) {
+                let arrayLength = product.ingrediente.length
+                let resultNewProductIngredient
+                for (let index = 0; index < arrayLength; index++) {
+                    productIngredient.id_ingrediente = product.ingrediente[index].id_ingrediente
+                    resultNewProductIngredient = await newProductIngredient.insertProductIngredient(productIngredient)
+                }
+                if (resultNewProductIngredient) {
                     let productPromotion = {}
 
                     productPromotion.id_produto = newProductId
@@ -63,6 +66,7 @@ const newProduct = async (product) => {
                     await deleteProduct(newProductId)
                     return {status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB}
                 }
+                
             } else {
                 await deleteProduct(newProductId)
                 return {status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM}
