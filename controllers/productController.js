@@ -123,6 +123,7 @@ const listAllProducts = async () => {
     // Import das models
     const { selectAllProducts } = require('../models/DAO/product.js')
     const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
+    const { selectProductPromotion } = require('../models/DAO/productPromotion.js')
 
     const productsData = await selectAllProducts()
 
@@ -130,9 +131,14 @@ const listAllProducts = async () => {
         const productIngredientArray = productsData.map(async productItem => {
 
             const productIngredientData = await selectProductIngredient(productItem.id_produto)
+            const productPromotionData = await selectProductPromotion(productItem.id_produto)
 
             if(productIngredientData) {
                 productItem.ingrediente = productIngredientData
+
+                if(productPromotionData) {
+                    productItem.promocao = productPromotionData
+                }
             }
 
             return productItem
@@ -152,6 +158,7 @@ const listProductsByCategory = async (productCategory) => {
 
         const { selectProductsByCategory } = require('../models/DAO/product.js')
         const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
+        const { selectProductPromotion } = require('../models/DAO/productPromotion.js')
 
         const productsByCategoryData = await selectProductsByCategory(productCategory)
 
@@ -159,9 +166,14 @@ const listProductsByCategory = async (productCategory) => {
             const productIngredientArray = productsByCategoryData.map(async productItem => {
 
                 const productIngredientData = await selectProductIngredient(productItem.id_produto)
+                const productPromotionData = await selectProductPromotion(productItem.id_produto)
 
                 if(productIngredientData) {
                     productItem.ingrediente = productIngredientData
+
+                    if(productPromotionData) {
+                        productItem.promocao = productPromotionData
+                    }
                 }
 
                 return productItem
@@ -183,15 +195,21 @@ const listProductsByType = async (productType) => {
 
         const { selectProductsByType } = require('../models/DAO/product.js')
         const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
+        const { selectProductPromotion } = require('../models/DAO/productPromotion.js')
 
         const productsByTypeData = await selectProductsByType(productType)
 
         if(productsByTypeData) {
             const productIngredientArray = productsByTypeData.map(async productItem => {
                 const productIngredientData = await selectProductIngredient(productItem.id_produto)
+                const productPromotionData = await selectProductPromotion(productItem.id_produto)
 
                 if(productIngredientData) {
                     productItem.ingrediente = productIngredientData
+
+                    if(productPromotionData) {
+                        productItem.promocao = productPromotionData
+                    }
                 }
 
                 return productItem
@@ -213,15 +231,21 @@ const listProductsByName = async (productName) => {
 
         const { selectProductsByName } = require('../models/DAO/product.js')
         const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
+        const { selectProductPromotion } = require('../models/DAO/productPromotion.js')
 
         const productsByNameData = await selectProductsByName(productName.toLowerCase())
 
         if(productsByNameData) {
             const productIngredientArray = productsByNameData.map(async productItem => {
                 const productIngredientData = await selectProductIngredient(productItem.id_produto)
+                const productPromotionData = await selectProductPromotion(productItem.id_produto)
 
                 if(productIngredientData) {
                     productItem.ingrediente = productIngredientData
+
+                    if(productPromotionData) {
+                        productItem.promocao = productPromotionData
+                    }
                 }
 
                 return productItem

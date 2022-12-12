@@ -255,7 +255,18 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
          
          WHERE locate('tes', tbl_produto.nome);
 
-SELECT * FROM tbl_promocao_produto
+SELECT * FROM tbl_promocao_produto;
+
+SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.foto, tbl_produto.descricao,
+	   tbl_promocao.nome as nome_promocao, tbl_promocao.porcentagem_desconto, tbl_promocao.preco_final, date_format(tbl_promocao.data_inicio, '%d/%m/%Y'), date_format(tbl_promocao.data_termino, '%d/%m/%Y')
+       
+       FROM tbl_produto
+       
+       INNER JOIN tbl_promocao_produto
+		 ON tbl_produto.id = tbl_promocao_produto.id_produto
+         
+	   INNER JOIN tbl_promocao
+		 ON tbl_promocao.id = tbl_promocao_produto.id_promocao
 
 
 

@@ -52,15 +52,16 @@ const deleteProductPromotion = async (id) => {
 
 // Função para retornar todos os produtos
 const selectProductPromotion = async (productId) => {
-    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto,
-                      cast(tbl_ingrediente.id as decimal) as id_ingrediente, tbl_ingrediente.nome as nome_ingrediente
-                      FROM tbl_produto
+    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.foto, tbl_produto.descricao,
+    tbl_promocao.nome as nome_promocao, tbl_promocao.porcentagem_desconto, tbl_promocao.preco_final, date_format(tbl_promocao.data_inicio, '%d/%m/%Y') as data_inicio, date_format(tbl_promocao.data_termino, '%d/%m/%Y') as data_termino
     
-                      INNER JOIN tbl_ingrediente_produto
-                      ON tbl_produto.id = tbl_ingrediente_produto.id_produto
+    FROM tbl_produto
+    
+    INNER JOIN tbl_promocao_produto
+      ON tbl_produto.id = tbl_promocao_produto.id_produto
       
-                      INNER JOIN tbl_ingrediente
-                      ON tbl_ingrediente.id = tbl_ingrediente_produto.id_ingrediente
+    INNER JOIN tbl_promocao
+      ON tbl_promocao.id = tbl_promocao_produto.id_promocao
                       
                       WHERE tbl_produto.id = ${productId}`
 
