@@ -239,7 +239,19 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
          
 	   WHERE tbl_tipo_produto.tipo LIKE "Salgada";
        
-desc tbl_tipo_produto;
+ALTER TABLE tbl_produto MODIFY COLUMN qtde_favorito int DEFAULT 0;
+       
+SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao, tbl_produto.qtde_favorito,
+	   tbl_tipo_produto.tipo as nome_tipo,
+       tbl_categoria.nome as nome_categoria
+       
+       FROM tbl_produto
+       
+       INNER JOIN tbl_tipo_produto
+		 ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+         
+	   INNER JOIN tbl_categoria
+		 ON tbl_categoria.id = tbl_produto.id_categoria;
 
 
 
