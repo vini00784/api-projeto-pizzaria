@@ -255,6 +255,7 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
          
          WHERE locate('tes', tbl_produto.nome);
 
+SELECT * FROM tbl_promocao_produto
 
 
 
