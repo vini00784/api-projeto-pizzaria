@@ -93,7 +93,17 @@ const deleteProduct = async (id) => {
 
 // Função para retornar todos os produtos
 const selectAllProducts = async () => {
-    let sql = `select cast(id as decimal) as id, nome, preco, foto, descricao, qtde_favorito from tbl_produto order by id desc`
+    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao, tbl_produto.qtde_favorito,
+    tbl_tipo_produto.tipo as nome_tipo,
+    tbl_categoria.nome as nome_categoria
+    
+    FROM tbl_produto
+    
+    INNER JOIN tbl_tipo_produto
+      ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+      
+    INNER JOIN tbl_categoria
+      ON tbl_categoria.id = tbl_produto.id_categoria`
 
     const rsProducts = await prisma.$queryRawUnsafe(sql)
 
@@ -106,12 +116,17 @@ const selectAllProducts = async () => {
 
 // Função para retornar produtos com base na categoria (se é Pizza, Bebida...)
 const selectProductsByCategory = async (productCategory) => {
-    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao,
-                      tbl_categoria.nome as nome_categoria
-                      FROM tbl_produto
+    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao, tbl_produto.qtde_favorito,
+    tbl_tipo_produto.tipo as nome_tipo,
+    tbl_categoria.nome as nome_categoria
     
-                      INNER JOIN tbl_categoria
-                      ON tbl_categoria.id = tbl_produto.id_categoria
+    FROM tbl_produto
+    
+    INNER JOIN tbl_tipo_produto
+      ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+      
+    INNER JOIN tbl_categoria
+      ON tbl_categoria.id = tbl_produto.id_categoria
       
                       WHERE tbl_categoria.nome LIKE "${productCategory}"`
 
@@ -126,12 +141,17 @@ const selectProductsByCategory = async (productCategory) => {
 
 // Função para retornar produtos com base no tipo (se é pizza doce, salgada...)
 const selectProductsByType = async (productType) => {
-    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto,     tbl_produto.descricao,
-                      tbl_tipo_produto.tipo as nome_tipo
-                      FROM tbl_produto
+    let sql = `SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_produto, tbl_produto.preco, tbl_produto.foto, tbl_produto.descricao, tbl_produto.qtde_favorito,
+    tbl_tipo_produto.tipo as nome_tipo,
+    tbl_categoria.nome as nome_categoria
     
-                      INNER JOIN tbl_tipo_produto
-                        ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+    FROM tbl_produto
+    
+    INNER JOIN tbl_tipo_produto
+      ON tbl_tipo_produto.id = tbl_produto.id_tipo_produto
+      
+    INNER JOIN tbl_categoria
+      ON tbl_categoria.id = tbl_produto.id_categoria
       
                       WHERE tbl_tipo_produto.tipo LIKE "${productType}"`
 

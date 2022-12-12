@@ -109,7 +109,7 @@ const listAllProducts = async () => {
     if(productsData) {
         const productIngredientArray = productsData.map(async productItem => {
 
-            const productIngredientData = await selectProductIngredient(productItem.id)
+            const productIngredientData = await selectProductIngredient(productItem.id_produto)
 
             if(productIngredientData) {
                 productItem.ingrediente = productIngredientData
@@ -131,11 +131,22 @@ const listProductsByCategory = async (productCategory) => {
         let productsByCategoryJson = {}
 
         const { selectProductsByCategory } = require('../models/DAO/product.js')
+        const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
 
         const productsByCategoryData = await selectProductsByCategory(productCategory)
 
         if(productsByCategoryData) {
-            productsByCategoryJson.products = productsByCategoryData
+            const productIngredientArray = productsByCategoryData.map(async productItem => {
+
+                const productIngredientData = await selectProductIngredient(productItem.id_produto)
+
+                if(productIngredientData) {
+                    productItem.ingrediente = productIngredientData
+                }
+
+                return productItem
+            })
+            productsByCategoryJson.products = await Promise.all(productIngredientArray)
             return {status: 200, message: productsByCategoryJson}
         } else {
             return {status: 404, message: MESSAGE_ERROR.NOT_FOUND_DB}
@@ -151,11 +162,21 @@ const listProductsByType = async (productType) => {
         let productsByTypeJson = {}
 
         const { selectProductsByType } = require('../models/DAO/product.js')
+        const { selectProductIngredient } = require('../models/DAO/productIngredient.js')
 
         const productsByTypeData = await selectProductsByType(productType)
 
         if(productsByTypeData) {
-            productsByTypeJson.products = productsByTypeData
+            const productIngredientArray = productsByTypeData.map(async productItem => {
+                const productIngredientData = await selectProductIngredient(productItem.id_produto)
+
+                if(productIngredientData) {
+                    productItem.ingrediente = productIngredientData
+                }
+
+                return productItem
+            })
+            productsByTypeJson.products = await Promise.all(productIngredientArray)
             return {status: 200, message: productsByTypeJson}
         } else {
             return {status: 404, message: MESSAGE_ERROR.NOT_FOUND_DB}
