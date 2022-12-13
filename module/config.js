@@ -20,6 +20,7 @@ const MESSAGE_SUCCESS = {
     INSERT_ITEM: 'Item criado com sucesso no Banco de Dados',
     UPDATE_ITEM: 'Item atualizado com sucesso no Banco de Dados',
     DELETE_ITEM: 'Item excluído com sucesso no Banco de Dados',
+    JWT_CREATED: 'Web Token criado com sucesso!'
 }
 
 module.exports = {
