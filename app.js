@@ -366,7 +366,7 @@ app.delete('/v1/product-type/:typeId', cors(), jsonParser, async (request, respo
     response.json(message)
 })
 
-app.get('/v1/product-type/:productTypeName', cors(), async(request, response) => {
+app.get('/v1/product-type-id/:productTypeName', cors(), async(request, response) => {
     let statusCode
     let message
     let productTypeName = request.params.productTypeName
@@ -500,7 +500,7 @@ app.delete('/v1/category/:categoryId', cors(), jsonParser, async(request, respon
     response.json(message)
 })
 
-app.get('/v1/category/:categoryName', cors(), async(request, response) => {
+app.get('/v1/category-id/:categoryName', cors(), async(request, response) => {
     let statusCode
     let message
     let categoryName = request.params.categoryName
@@ -814,7 +814,7 @@ app.put('/v1/ingredient/rehabilitate/:ingredientId', cors(), jsonParser, async(r
     response.json(message)
 })
 
-app.get('/v1/ingredient/:ingredientName', cors(), async(request, response) => {
+app.get('/v1/ingredient-id/:ingredientName', cors(), async(request, response) => {
     let statusCode
     let message
     let ingredientName = request.params.ingredientName
