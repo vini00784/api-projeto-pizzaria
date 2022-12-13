@@ -99,9 +99,10 @@ const selectAllUsers = async () => {
 }
 
 const selectAuthUser = async(userLogin, userPassword) => {
-    let sql = `select cast(id as decimal) as id, nome, email from tbl_usuario where email = ${userLogin} and where senha = ${userPassword}`
-    
-    const rsUser = await prisma.$executeRawUnsafe(sql)
+    let sql = `select cast(id as decimal) as id, nome, email, senha from tbl_usuario where email = '${userLogin}' and senha = '${userPassword}'`
+
+    const rsUser = await prisma.$queryRawUnsafe(sql)
+    // console.log(rsUser)
 
     if(rsUser.length > 0) {
         return rsUser

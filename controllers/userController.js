@@ -89,14 +89,14 @@ const userAutentication = async (userLogin, userPassword) => {
         const jwt = require('../middlewares/jwt.js')
 
         const userData = await user.selectAuthUser(userLogin, userPassword)
-
+        
         if(userData) {
             let userToken = await jwt.createJwt(userData)
             userData.token = userToken
 
-            return userData
+            return {status: 200, message: userData}
         } else {
-            return false
+            return {status: 401, message: MESSAGE_ERROR.INVALID_USER}
         }
     } else {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}

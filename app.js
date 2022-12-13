@@ -24,7 +24,7 @@ const messageTypeController = require('./controllers/messageTypeController.js')
 const promotionController = require('./controllers/promotionController.js')
 
 const jwt = require('./middlewares/jwt.js')
-const verifyAdmin = require('./middlewares/verifyLoginAdmin.js')
+const verifyUserLogin = require('./middlewares/verifyLoginAdmin.js')
 
 const app = express()
 
@@ -42,7 +42,6 @@ const jsonParser = bodyParser.json()
 
 const verifyJwt = async (request, response, next) => {
     let token = request.headers['x-access-token']
-    const jwt = require('./middlewares/jwt.js')
     const authenticatedToken = await jwt.validateJwt(token)
 
     if(authenticatedToken) {
@@ -91,7 +90,7 @@ app.post('/v1/product', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
-app.get('/v1/products', cors(), async (request, response) => {
+app.get('/v1/products', verifyJwt, cors(), async (request, response) => {
     let statusCode
     let message
 
@@ -613,7 +612,7 @@ app.delete('/v1/user/:userId', cors(), jsonParser, async(request, response) => {
 // Autenticação do usuário
 
 app.post('/v1/user/login', cors(), jsonParser, async(request, response) => {
-    let statusCode
+    let statusCode 
     let message
     let headerContentType
 
@@ -623,24 +622,43 @@ app.post('/v1/user/login', cors(), jsonParser, async(request, response) => {
         const bodyData = request.body
 
         if(JSON.stringify(bodyData) != '{}') {
-            if(await verifyAdmin.verifyLogin(bodyData)) {
-                const createJwt = await jwt.createJwt(bodyData)
+            
+            const userData = await userController.userAutentication(bodyData.email, bodyData.senha)
 
-                statusCode = createJwt.status
-                message = createJwt.response
+            if(userData.status == 200) {
+                userData.message.forEach(async (adminInfo) => {
+                    const authenticatedUser = await verifyUserLogin.verifyLogin(adminInfo)
+                    if(authenticatedUser) {
+                        const createJwt = await jwt.createJwt(authenticatedUser)
+                        statusCode = createJwt.status
+                        message = createJwt.response
+    
+                        return response.status(statusCode).json(message)
+                    } else {
+                        statusCode = 401
+                        message = MESSAGE_ERROR.INVALID_USER
+                        return response.status(statusCode).json(message)
+                    }
+                })
+            } else {
+                statusCode = userData.status
+                message = userData.message
+                return response.status(statusCode).json(message)
             }
+
         } else {
             statusCode = 400
             message = MESSAGE_ERROR.EMPTY_BODY
+
+            return response.status(statusCode).json(message)
         }
 
     } else {
         statusCode = 415
         message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
-    }
 
-    response.status(statusCode)
-    response.json(message)
+        return response.status(statusCode).json(message)
+    }
 })
 
 /* ENDPOINTS PARA OS USUÁRIOS */
