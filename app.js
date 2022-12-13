@@ -789,6 +789,31 @@ app.put('/v1/ingredient/rehabilitate/:ingredientId', cors(), jsonParser, async(r
     response.json(message)
 })
 
+app.get('/v1/ingredient/:ingredientName', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let ingredientName = request.params.ingredientName
+
+    if(ingredientName != '' && ingredientName != undefined) {
+        const ingredientId = await ingredientController.selectIngredientId(ingredientName)
+
+        if(ingredientId) {
+            statusCode = 200
+            message = ingredientId
+        } else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA OS INGREDIENTES */
 
 /*******************************************************/

@@ -106,10 +106,24 @@ const selectAllIngredients = async () => {
     }
 }
 
+//Função para retornar o ID de acordo com o nome da Categoria 
+const selectIngredientId = async(ingredientName) => {
+    let sql = `select id from tbl_ingrediente where nome like '${ingredientName}'`
+
+    const rsId = await prisma.$queryRawUnsafe(sql)
+
+    if(rsId.length > 0) {
+        return rsId
+    } else {
+        return false
+    }
+}
+
 module.exports = {
     insertIngredient,
     updateIngredient,
     turnOffIngredient,
     turnOnIngredient,
-    selectAllIngredients
+    selectAllIngredients,
+    selectIngredientId
 }

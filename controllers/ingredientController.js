@@ -97,10 +97,28 @@ const listAllIngredients = async () => {
     }
 }
 
+const selectIngredientId = async (ingredientName) => {
+    if(ingredientName != '' && ingredientName != undefined) {
+        let idJson = {}
+    
+        const { selectIngredientId } = require('../models/DAO/ingredient.js')
+    
+        const id = await selectIngredientId(ingredientName)
+    
+        if(id) {
+            idJson.id = id
+            return id
+        } else {
+            return false
+        }
+    }
+}
+
 module.exports = {
     newIngredient,
     updateIngredient,
     turnOffIngredient,
     turnOnIngredient,
-    listAllIngredients
+    listAllIngredients,
+    selectIngredientId
 }
