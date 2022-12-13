@@ -8,7 +8,7 @@
 // Arquivo de mensagens padronizadas
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../module/config.js')
 
-// Função que gera novo produto no BD
+// Função que gera nova categoria no BD
 const newCategory = async (category) => {
     if(category.nome == '' || category.nome == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -29,7 +29,7 @@ const newCategory = async (category) => {
     }
 }
 
-// Função que atualiza produto no BD
+// Função que atualiza categoria no BD
 const updateCategory = async (category) => {
     if(category.id == '' || category.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
@@ -50,7 +50,7 @@ const updateCategory = async (category) => {
     }
 }
 
-// Função que delete produto do BD
+// Função que deleta categoria do BD
 const deleteCategory = async (id) => {
     if (id != '' && id != undefined) {
         const deletedCategory = require('../models/DAO/category.js')
@@ -67,7 +67,7 @@ const deleteCategory = async (id) => {
     }
 }
 
-// Função que lista todos os produtos do BD
+// Função que lista todas as categorias do BD
 const listAllCategories = async () => {
     let categoriesJson = {}
 
@@ -83,6 +83,7 @@ const listAllCategories = async () => {
     }
 }
 
+// Função que retorna o ID da categoria de acordo com o nome
 const selectCategoryId = async (categoryName) => {
     if(categoryName != '' && categoryName != undefined) {
         let idJson = {}

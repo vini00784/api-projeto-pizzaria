@@ -7,6 +7,7 @@
 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config.js")
 
+// Função que gera novo tipo de mensagem no BD
 const newMessageType = async (type) => {
     if(type.nome == '' || type.nome == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -25,6 +26,7 @@ const newMessageType = async (type) => {
     }
 }
 
+// Função que atualiza tipo de mensagem no BD
 const updateMessageType = async (type) => {
     if(type.id == ''|| type.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
@@ -45,6 +47,7 @@ const updateMessageType = async (type) => {
     }
 }
 
+// Função que deleta tipo de mensagem do BD
 const deleteMessageType = async (id) => {
     if(id != '' && id != undefined) {
         const deletedMessageType = require('../models/DAO/messageType.js')
@@ -61,6 +64,7 @@ const deleteMessageType = async (id) => {
     }
 }
 
+// Função que lista todas os tipos de mensagem do BD
 const listAllMessageType = async () => {
     let messageTypesJson = {}
 

@@ -261,6 +261,7 @@ const listProductsByName = async (productName) => {
     }
 }
 
+// Função que retorna o ID do produto de acordo com o nome
 const selectProductId = async (productName) => {
     if(productName != '' && productName != undefined) {
         let idJson = {}

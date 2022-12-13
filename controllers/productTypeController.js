@@ -7,6 +7,7 @@
 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config")
 
+// Função que gera novo tipo de produto no BD
 const newProductType = async (type) => {
     if(type.tipo == '' || type.tipo == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -28,6 +29,7 @@ const newProductType = async (type) => {
     }
 }
 
+// Função que atualiza tipo de produto no BD
 const updateProductType = async (type) => {
     if(type.id == '' || type.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
@@ -48,6 +50,7 @@ const updateProductType = async (type) => {
     }
 }
 
+// Função que deleta tipo de produto do BD
 const deleteProductType = async(id) => {
     if(id != '' || id != undefined) {
         const deletedProductType = require('../models/DAO/productType.js')
@@ -64,6 +67,7 @@ const deleteProductType = async(id) => {
     }
 }
 
+// Função que lista todas os tipos de produto do BD
 const listAllProductTypes = async () => {
     let typesJson = {}
 
@@ -79,6 +83,7 @@ const listAllProductTypes = async () => {
     }
 }
 
+// Função que retorna o ID do tipo de mensagem de acordo com o nome
 const selectProductTypeId = async (productTypeName) => {
     if(productTypeName != '' && productTypeName != undefined) {
         let idJson = {}

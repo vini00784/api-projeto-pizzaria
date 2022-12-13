@@ -7,6 +7,7 @@
 
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require("../module/config.js")
 
+// Função que gera nova promoção no BD
 const newPromotion = async (promotion) => {
     if(promotion.nome == '' || promotion.nome == undefined || promotion.porcentagem_desconto == '' || promotion.porcentagem_desconto == undefined || promotion.preco_final == '' || promotion.preco_final == undefined || promotion.data_inicio == '' || promotion.data_inicio == undefined || promotion.data_termino == '' || promotion.data_termino == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -25,6 +26,7 @@ const newPromotion = async (promotion) => {
     }
 }
 
+// Função que atualiza promoção no BD
 const updatedPromotion = async (promotion) => {
     if(promotion.id == '' || promotion.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
@@ -45,6 +47,7 @@ const updatedPromotion = async (promotion) => {
     }
 }
 
+// Função que deleta promoção do BD
 const deletePromotion = async (id) => {
     if(id != '' && id != undefined) {
         const deletedPromotion = require('../models/DAO/promotion.js')
@@ -61,6 +64,7 @@ const deletePromotion = async (id) => {
     }
 }
 
+// Função que lista todas as promoções do BD
 const listAllPromotions = async () => {
     let promotionsJson = {}
 

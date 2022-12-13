@@ -83,6 +83,7 @@ const listAllUsers = async () => {
     }
 }
 
+// Função que autentica usuário com base no email(login) e na senha
 const userAutentication = async (userLogin, userPassword) => {
     if(userLogin != '' && userLogin != undefined && userPassword != '' && userPassword != undefined) {
         const user = require('../models/DAO/user.js')

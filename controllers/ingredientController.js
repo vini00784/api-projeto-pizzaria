@@ -8,7 +8,7 @@
 // Arquivo de mensagens padronizadas
 const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../module/config.js')
 
-// Função que gera novo produto no BD
+// Função que gera novo ingrediente no BD
 const newIngredient = async (ingredient) => {
     if(ingredient.nome == '' || ingredient.nome == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
@@ -27,7 +27,7 @@ const newIngredient = async (ingredient) => {
     }
 }
 
-// Função que atualiza produto no BD
+// Função que atualiza ingrediente no BD
 const updateIngredient = async (ingredient) => {
     if(ingredient.id == '' || ingredient.id == undefined) {
         return {status: 400, message: MESSAGE_ERROR.REQUIRED_ID}
@@ -48,7 +48,7 @@ const updateIngredient = async (ingredient) => {
     }
 }
 
-// Função que delete produto do BD
+// Função que desativa ingrediente do BD
 const turnOffIngredient = async (id) => {
     if(id != '' || id != undefined) {
         const deletedIngredient = require('../models/DAO/ingredient.js')
@@ -65,6 +65,7 @@ const turnOffIngredient = async (id) => {
     }
 }
 
+// Função que ativa ingrediente do BD
 const turnOnIngredient = async (id) => {
     if(id != '' || id != undefined) {
         const rehabilitatedIngredient = require('../models/DAO/ingredient.js')
@@ -81,7 +82,7 @@ const turnOnIngredient = async (id) => {
     }
 }
 
-// Função que lista todos os produtos do BD
+// Função que lista todos os ingredientes do BD
 const listAllIngredients = async () => {
     let ingredientsJson = {}
 
@@ -97,6 +98,7 @@ const listAllIngredients = async () => {
     }
 }
 
+// Função que retorna o ID do ingrediente de acordo com o nome
 const selectIngredientId = async (ingredientName) => {
     if(ingredientName != '' && ingredientName != undefined) {
         let idJson = {}
