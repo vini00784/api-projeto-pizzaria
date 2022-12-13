@@ -224,6 +224,31 @@ app.get('/v1/products/name/:productName', cors(), async(request, response) => {
     response.json(message)
 })
 
+app.get('/v1/product-id/:productName', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let productName = request.params.productName
+
+    if(productName != '' && productName != undefined) {
+        const productId = await productController.selectProductId(productName)
+
+        if(productId) {
+            statusCode = 200
+            message = productId
+        } else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 
 /* ENDPOINTS PARA OS PRODUTOS */ 
 

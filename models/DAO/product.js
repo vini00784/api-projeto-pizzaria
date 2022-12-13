@@ -210,6 +210,19 @@ const selectLastId = async () => {
 
 }
 
+//Função para retornar o ID de acordo com o nome do Produto 
+const selectProductId = async(productName) => {
+    let sql = `select id from tbl_produto where nome like '${productName}'`
+
+    const rsId = await prisma.$queryRawUnsafe(sql)
+
+    if(rsId.length > 0) {
+        return rsId
+    } else {
+        return false
+    }
+}
+
 module.exports = {
     insertProduct,
     updateProduct,
@@ -218,5 +231,6 @@ module.exports = {
     selectProductsByCategory,
     selectProductsByType,
     selectProductsByName,
-    selectLastId
+    selectLastId,
+    selectProductId
 }
