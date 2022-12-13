@@ -83,9 +83,30 @@ const listAllUsers = async () => {
     }
 }
 
+const userAutentication = async (userLogin, userPassword) => {
+    if(userLogin != '' && userLogin != undefined && userPassword != '' && userPassword != undefined) {
+        const user = require('../models/DAO/user.js')
+        const jwt = require('../middlewares/jwt.js')
+
+        const userData = await user.selectAuthUser(userLogin, userPassword)
+
+        if(userData) {
+            let userToken = await jwt.createJwt(userData)
+            userData.token = userToken
+
+            return userData
+        } else {
+            return false
+        }
+    } else {
+        return {status: 400, message: MESSAGE_ERROR.REQUIRED_FIELDS}
+    }
+}
+
 module.exports = {
     newUser,
     updateUser,
     deleteUser,
-    listAllUsers
+    listAllUsers,
+    userAutentication
 }

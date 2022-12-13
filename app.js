@@ -23,6 +23,9 @@ const messageController = require('./controllers/messageController.js')
 const messageTypeController = require('./controllers/messageTypeController.js')
 const promotionController = require('./controllers/promotionController.js')
 
+const jwt = require('./middlewares/jwt.js')
+const verifyAdmin = require('./middlewares/verifyLoginAdmin.js')
+
 const app = express()
 
 // Configuração do cors para liberar o acesso à API
@@ -36,6 +39,18 @@ app.use((request, response, next) => {
 
 // Criando um objeto que permite receber um JSON no body das requisições
 const jsonParser = bodyParser.json()
+
+const verifyJwt = async (request, response, next) => {
+    let token = request.headers['x-access-token']
+    const jwt = require('./middlewares/jwt.js')
+    const authenticatedToken = await jwt.validateJwt(token)
+
+    if(authenticatedToken) {
+        next()
+    } else {
+        return response.status(401).end()
+    }
+}
 
 /* 
     Rotas para CRUD de produtos
@@ -589,6 +604,39 @@ app.delete('/v1/user/:userId', cors(), jsonParser, async(request, response) => {
     } else {
         statusCode = 400
         message = MESSAGE_ERROR.REQUIRED_ID
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
+// Autenticação do usuário
+
+app.post('/v1/user/login', cors(), jsonParser, async(request, response) => {
+    let statusCode
+    let message
+    let headerContentType
+
+    headerContentType = request.headers['content-type']
+
+    if(headerContentType == 'application/json') {
+        const bodyData = request.body
+
+        if(JSON.stringify(bodyData) != '{}') {
+            if(await verifyAdmin.verifyLogin(bodyData)) {
+                const createJwt = await jwt.createJwt(bodyData)
+
+                statusCode = createJwt.status
+                message = createJwt.response
+            }
+        } else {
+            statusCode = 400
+            message = MESSAGE_ERROR.EMPTY_BODY
+        }
+
+    } else {
+        statusCode = 415
+        message = MESSAGE_ERROR.INCORRECT_CONTENT_TYPE
     }
 
     response.status(statusCode)

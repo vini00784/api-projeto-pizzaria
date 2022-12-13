@@ -98,9 +98,22 @@ const selectAllUsers = async () => {
     }
 }
 
+const selectAuthUser = async(userLogin, userPassword) => {
+    let sql = `select cast(id as decimal) as id, nome, email from tbl_usuario where email = ${userLogin} and where senha = ${userPassword}`
+    
+    const rsUser = await prisma.$executeRawUnsafe(sql)
+
+    if(rsUser.length > 0) {
+        return rsUser
+    } else {
+        return false
+    }
+}
+
 module.exports = {
     insertUser,
     updateUser,
     deleteUser,
-    selectAllUsers
+    selectAllUsers,
+    selectAuthUser
 }
