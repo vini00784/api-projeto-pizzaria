@@ -270,6 +270,8 @@ SELECT cast(tbl_produto.id as decimal) as id_produto, tbl_produto.nome as nome_p
          
 SELECT * FROM tbl_ingrediente_produto;
 
+DESC tbl_produto;
+
 
 
 
