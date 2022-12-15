@@ -83,7 +83,7 @@ const listAllProductTypes = async () => {
     }
 }
 
-// Função que retorna o ID do tipo de mensagem de acordo com o nome
+// Função que retorna o ID do tipo de produto de acordo com o nome
 const selectProductTypeId = async (productTypeName) => {
     if(productTypeName != '' && productTypeName != undefined) {
         let idJson = {}
