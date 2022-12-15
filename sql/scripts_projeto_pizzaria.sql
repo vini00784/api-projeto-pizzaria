@@ -272,6 +272,7 @@ SELECT * FROM tbl_ingrediente_produto;
 
 DESC tbl_produto;
 
+SELECT * from tbl_mensagem;
 
 
 
