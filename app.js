@@ -999,6 +999,31 @@ app.delete('/v1/message-type/:messageTypeId', cors(), jsonParser, async(request,
     response.json(message)
 })
 
+app.get('/v1/message-type-id/:messageTypeName', cors(), async(request, response) => {
+    let statusCode
+    let message
+    let messageTypeName = request.params.messageTypeName
+
+    if(messageTypeName != '' && messageTypeName != undefined) {
+        const messageTypeId = await messageTypeController.selectMessageTypeId(messageTypeName)
+
+        if(messageTypeId) {
+            statusCode = 200
+            message = messageTypeId
+        } else {
+            statusCode = 404
+            message = MESSAGE_ERROR.NOT_FOUND_DB
+        }
+
+    } else {
+        statusCode = 400
+        message = MESSAGE_ERROR.REQUIRED_FIELDS
+    }
+
+    response.status(statusCode)
+    response.json(message)
+})
+
 /* ENDPOINTS PARA AS TIPOS DE MENSAGENS */
 
 /*******************************************************/

@@ -83,9 +83,23 @@ const selectAllMessageTypes = async () => {
     }
 }
 
+//Função para retornar o ID de acordo com o nome do Tipo 
+const selectMessageTypeId = async(productMessageName) => {
+    let sql = `select id from tbl_tipo_mensagem where nome like '${productMessageName}'`
+
+    const rsId = await prisma.$queryRawUnsafe(sql)
+
+    if(rsId.length > 0) {
+        return rsId
+    } else {
+        return false
+    }
+}
+
 module.exports = {
     insertNewMessageType,
     updateMessageType,
     deleteMessageType,
-    selectAllMessageTypes
+    selectAllMessageTypes,
+    selectMessageTypeId
 }

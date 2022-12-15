@@ -80,9 +80,28 @@ const listAllMessageType = async () => {
     }
 }
 
+// Função que retorna o ID do tipo de mensagem de acordo com o nome
+const selectMessageTypeId = async (messageTypeName) => {
+    if(messageTypeName != '' && messageTypeName != undefined) {
+        let idJson = {}
+    
+        const { selectMessageTypeId } = require('../models/DAO/messageType.js')
+    
+        const id = await selectMessageTypeId(messageTypeName)
+    
+        if(id) {
+            idJson.id = id
+            return id
+        } else {
+            false
+        }
+    }
+}
+
 module.exports = {
     newMessageType,
     updateMessageType,
     deleteMessageType,
-    listAllMessageType
+    listAllMessageType,
+    selectMessageTypeId
 }
