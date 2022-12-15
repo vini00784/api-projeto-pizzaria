@@ -90,7 +90,7 @@ app.post('/v1/product', cors(), jsonParser, async (request, response) => {
     response.json(message)
 })
 
-app.get('/v1/products', verifyJwt, cors(), async (request, response) => {
+app.get('/v1/products', cors(), async (request, response) => {
     let statusCode
     let message
 
